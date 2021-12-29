@@ -11,38 +11,38 @@ import (
 	"database/sql"
 
 	"github.com/dtm-labs/dtmcli"
-	common "github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 func init() {
 	setupFuncs["TccBarrierSetup"] = func(app *gin.Engine) {
-		app.POST(BusiAPI+"/SagaBTransIn", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/SagaBTransIn", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			barrier := MustBarrierFromGin(c)
 			return dtmcli.MapSuccess, barrier.Call(txGet(), func(tx *sql.Tx) error {
 				return sagaAdjustBalance(tx, transInUID, reqFrom(c).Amount, reqFrom(c).TransInResult)
 			})
 		}))
-		app.POST(BusiAPI+"/SagaBTransInCompensate", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/SagaBTransInCompensate", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			barrier := MustBarrierFromGin(c)
 			return dtmcli.MapSuccess, barrier.Call(txGet(), func(tx *sql.Tx) error {
 				return sagaAdjustBalance(tx, transInUID, -reqFrom(c).Amount, "")
 			})
 		}))
-		app.POST(BusiAPI+"/SagaBTransOut", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/SagaBTransOut", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			barrier := MustBarrierFromGin(c)
 			return dtmcli.MapSuccess, barrier.Call(txGet(), func(tx *sql.Tx) error {
 				return sagaAdjustBalance(tx, transOutUID, -reqFrom(c).Amount, reqFrom(c).TransOutResult)
 			})
 		}))
-		app.POST(BusiAPI+"/SagaBTransOutCompensate", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/SagaBTransOutCompensate", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			barrier := MustBarrierFromGin(c)
 			return dtmcli.MapSuccess, barrier.Call(txGet(), func(tx *sql.Tx) error {
 				return sagaAdjustBalance(tx, transOutUID, reqFrom(c).Amount, "")
 			})
 		}))
-		app.POST(BusiAPI+"/SagaBTransOutGorm", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/SagaBTransOutGorm", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			req := reqFrom(c)
 			barrier := MustBarrierFromGin(c)
 			tx := dbGet().DB.Begin()
@@ -51,7 +51,7 @@ func init() {
 			})
 		}))
 
-		app.POST(BusiAPI+"/TccBTransInTry", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/TccBTransInTry", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			req := reqFrom(c) // 去重构一下，改成可以重复使用的输入
 			if req.TransInResult != "" {
 				return req.TransInResult, nil
@@ -60,17 +60,17 @@ func init() {
 				return tccAdjustTrading(tx, transInUID, req.Amount)
 			})
 		}))
-		app.POST(BusiAPI+"/TccBTransInConfirm", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/TccBTransInConfirm", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			return dtmcli.MapSuccess, MustBarrierFromGin(c).Call(txGet(), func(tx *sql.Tx) error {
 				return tccAdjustBalance(tx, transInUID, reqFrom(c).Amount)
 			})
 		}))
-		app.POST(BusiAPI+"/TccBTransInCancel", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/TccBTransInCancel", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			return dtmcli.MapSuccess, MustBarrierFromGin(c).Call(txGet(), func(tx *sql.Tx) error {
 				return tccAdjustTrading(tx, transInUID, -reqFrom(c).Amount)
 			})
 		}))
-		app.POST(BusiAPI+"/TccBTransOutTry", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/TccBTransOutTry", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			req := reqFrom(c)
 			if req.TransOutResult != "" {
 				return req.TransOutResult, nil
@@ -79,12 +79,12 @@ func init() {
 				return tccAdjustTrading(tx, transOutUID, -req.Amount)
 			})
 		}))
-		app.POST(BusiAPI+"/TccBTransOutConfirm", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+		app.POST(BusiAPI+"/TccBTransOutConfirm", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 			return dtmcli.MapSuccess, MustBarrierFromGin(c).Call(txGet(), func(tx *sql.Tx) error {
 				return tccAdjustBalance(tx, transOutUID, -reqFrom(c).Amount)
 			})
 		}))
-		app.POST(BusiAPI+"/TccBTransOutCancel", common.WrapHandler(TccBarrierTransOutCancel))
+		app.POST(BusiAPI+"/TccBTransOutCancel", dtmutil.WrapHandler(TccBarrierTransOutCancel))
 	}
 }
 

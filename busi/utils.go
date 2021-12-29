@@ -9,12 +9,12 @@ import (
 	"github.com/dtm-labs/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/dtm-labs/dtmgrpc"
-	common "github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
 )
 
-func dbGet() *common.DB {
-	return common.DbGet(BusiConf)
+func dbGet() *dtmutil.DB {
+	return dtmutil.DbGet(BusiConf)
 }
 
 func sdbGet() *sql.DB {

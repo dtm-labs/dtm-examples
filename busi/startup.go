@@ -3,7 +3,7 @@ package busi
 import (
 	"fmt"
 
-	common "github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,8 +16,8 @@ func Startup() *gin.Engine {
 // PopulateDB populate example mysql data
 func PopulateDB(skipDrop bool) {
 	resetXaData()
-	file := fmt.Sprintf("%s/busi.%s.sql", common.GetSqlDir(), BusiConf.Driver)
-	common.RunSQLScript(BusiConf, file, skipDrop)
-	file = fmt.Sprintf("%s/dtmcli.barrier.%s.sql", common.GetSqlDir(), BusiConf.Driver)
-	common.RunSQLScript(BusiConf, file, skipDrop)
+	file := fmt.Sprintf("%s/busi.%s.sql", dtmutil.GetSqlDir(), BusiConf.Driver)
+	dtmutil.RunSQLScript(BusiConf, file, skipDrop)
+	file = fmt.Sprintf("%s/dtmcli.barrier.%s.sql", dtmutil.GetSqlDir(), BusiConf.Driver)
+	dtmutil.RunSQLScript(BusiConf, file, skipDrop)
 }
