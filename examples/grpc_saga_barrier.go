@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	addSample("grpc_saga_barrier", func() string {
+	AddCommand("grpc_saga_barrier", func() string {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).

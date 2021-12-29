@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	addSample("grpc_xa", func() string {
+	AddCommand("grpc_xa", func() string {
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		req := &busi.BusiReq{Amount: 30}
 		err := busi.XaGrpcClient.XaGlobalTransaction(gid, func(xa *dtmgrpc.XaGrpc) error {

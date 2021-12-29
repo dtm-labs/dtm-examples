@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	addSample("http_tcc_nested", func() string {
+	AddCommand("http_tcc_nested", func() string {
 		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHttpServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
 			resp, err := tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
@@ -27,7 +27,7 @@ func init() {
 		logger.FatalIfError(err)
 		return gid
 	})
-	addSample("http_tcc", func() string {
+	AddCommand("http_tcc", func() string {
 		logger.Debugf("tcc simple transaction begin")
 		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHttpServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {

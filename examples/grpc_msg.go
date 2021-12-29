@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	addSample("grpc_msg", func() string {
+	AddCommand("grpc_msg", func() string {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		msg := dtmgrpc.NewMsgGrpc(dtmutil.DefaultGrpcServer, gid).

@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	addSample("http_xa_gorm", func() string {
+	AddCommand("http_xa_gorm", func() string {
 		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
 		err := busi.XaClient.XaGlobalTransaction(gid, func(xa *dtmcli.Xa) (*resty.Response, error) {
 			resp, err := xa.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOutXaGorm")

@@ -9,6 +9,7 @@ import (
 
 	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtm-examples/examples"
+	"github.com/dtm-labs/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmcli/logger"
 )
 
@@ -27,6 +28,13 @@ func main() {
 	if len(os.Args) == 1 {
 		hintExit("")
 	}
+	logger.InitLog("debug")
+	busi.BusiConf = dtmimp.DBConf{
+		Driver: "mysql",
+		Host:   "localhost",
+		Port:   3306,
+		User:   "root",
+	}
 	busi.Startup()
 	time.Sleep(50 * time.Millisecond)
 	cmd := os.Args[1]
@@ -38,6 +46,5 @@ func main() {
 	} else {
 		hintExit("unknown command: " + cmd)
 	}
-	logger.Infof("you can press Ctrl+C to exit")
-	select {}
+	time.Sleep(3 * time.Second)
 }

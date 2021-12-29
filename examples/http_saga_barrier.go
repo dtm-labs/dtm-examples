@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	addSample("http_saga_barrier", func() string {
+	AddCommand("http_saga_barrier", func() string {
 		logger.Debugf("a busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).

@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	addSample("grpc_saga", func() string {
+	AddCommand("grpc_saga", func() string {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
@@ -24,7 +24,7 @@ func init() {
 		logger.FatalIfError(err)
 		return saga.Gid
 	})
-	addSample("grpc_saga_wait", func() string {
+	AddCommand("grpc_saga_wait", func() string {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
