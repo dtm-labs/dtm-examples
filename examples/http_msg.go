@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	addSample("msg", func() string {
+	addSample("http_msg", func() string {
 		logger.Debugf("a busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		msg := dtmcli.NewMsg(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).

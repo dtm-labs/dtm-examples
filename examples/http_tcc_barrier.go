@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	addSample("tcc_barrier", func() string {
+	addSample("http_tcc_barrier", func() string {
 		logger.Debugf("tcc transaction begin")
 		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHttpServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {

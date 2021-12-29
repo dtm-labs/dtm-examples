@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	addSample("grpc_tcc", func() string {
+	AddCommand("grpc_tcc", func() string {
 		logger.Debugf("tcc simple transaction begin")
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {

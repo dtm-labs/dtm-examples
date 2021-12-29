@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	addSample("saga", func() string {
+	addSample("http_saga", func() string {
 		logger.Debugf("a saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
@@ -26,7 +26,7 @@ func init() {
 		logger.FatalIfError(err)
 		return saga.Gid
 	})
-	addSample("saga_wait", func() string {
+	addSample("http_saga_wait", func() string {
 		logger.Debugf("a saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
@@ -38,7 +38,7 @@ func init() {
 		logger.FatalIfError(err)
 		return saga.Gid
 	})
-	addSample("concurrent_saga", func() string {
+	addSample("http_concurrent_saga", func() string {
 		logger.Debugf("a concurrent saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		csaga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
