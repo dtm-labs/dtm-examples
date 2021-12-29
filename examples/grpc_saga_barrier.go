@@ -7,17 +7,17 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	"github.com/dtm-labs/dtm/dtmgrpc"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/dtm-labs/dtmgrpc"
 )
 
 func init() {
 	addSample("grpc_saga_barrier", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmsvr.DefaultGrpcServer)
-		saga := dtmgrpc.NewSagaGrpc(dtmsvr.DefaultGrpcServer, gid).
+		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/examples.Busi/TransOutBSaga", busi.BusiGrpc+"/examples.Busi/TransOutRevertBSaga", req).
 			Add(busi.BusiGrpc+"/examples.Busi/TransInBSaga", busi.BusiGrpc+"/examples.Busi/TransInRevertBSaga", req)
 		err := saga.Submit()

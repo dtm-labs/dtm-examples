@@ -7,17 +7,17 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli"
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli"
+	"github.com/dtm-labs/dtmcli/logger"
 )
 
 func init() {
 	addSample("saga_gorm_barrier", func() string {
 		logger.Debugf("a busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmsvr.DefaultHttpServer, dtmcli.MustGenGid(dtmsvr.DefaultHttpServer)).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/SagaBTransOutGorm", busi.Busi+"/SagaBTransOutCompensate", req).
 			Add(busi.Busi+"/SagaBTransIn", busi.Busi+"/SagaBTransInCompensate", req)
 		logger.Debugf("busi trans submit")

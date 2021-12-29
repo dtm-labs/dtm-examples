@@ -7,16 +7,16 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	"github.com/dtm-labs/dtm/dtmgrpc"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/dtm-labs/dtmgrpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 func init() {
 	addSample("grpc_xa", func() string {
-		gid := dtmgrpc.MustGenGid(dtmsvr.DefaultGrpcServer)
+		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		req := &busi.BusiReq{Amount: 30}
 		err := busi.XaGrpcClient.XaGlobalTransaction(gid, func(xa *dtmgrpc.XaGrpc) error {
 			r := &emptypb.Empty{}

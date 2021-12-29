@@ -7,16 +7,16 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli"
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli"
+	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/go-resty/resty/v2"
 )
 
 func init() {
 	addSample("xa_gorm", func() string {
-		gid := dtmcli.MustGenGid(dtmsvr.DefaultHttpServer)
+		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
 		err := busi.XaClient.XaGlobalTransaction(gid, func(xa *dtmcli.Xa) (*resty.Response, error) {
 			resp, err := xa.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOutXaGorm")
 			if err != nil {

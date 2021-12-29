@@ -7,18 +7,18 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	dtmgrpc "github.com/dtm-labs/dtm/dtmgrpc"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli/logger"
+	dtmgrpc "github.com/dtm-labs/dtmgrpc"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 func init() {
 	addSample("grpc_tcc", func() string {
 		logger.Debugf("tcc simple transaction begin")
-		gid := dtmgrpc.MustGenGid(dtmsvr.DefaultGrpcServer)
-		err := dtmgrpc.TccGlobalTransaction(dtmsvr.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
+		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
 			data := &busi.BusiReq{Amount: 30}
 			r := &emptypb.Empty{}
 			err := tcc.CallBranch(data, busi.BusiGrpc+"/examples.Busi/TransOutTcc", busi.BusiGrpc+"/examples.Busi/TransOutConfirm", busi.BusiGrpc+"/examples.Busi/TransOutRevert", r)

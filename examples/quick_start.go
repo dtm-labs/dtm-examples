@@ -10,10 +10,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dtm-labs/dtm/dtmcli"
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/dtmsvr/common"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli"
+	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,7 +25,7 @@ const qsBusiPort = 8082
 var qsBusi = fmt.Sprintf("http://localhost:%d%s", qsBusiPort, qsBusiAPI)
 
 func QsStartSvr() {
-	app := common.GetGinApp()
+	app := dtmutil.GetGinApp()
 	qsAddRoute(app)
 	logger.Infof("quick start examples listening at %d", qsBusiPort)
 	go app.Run(fmt.Sprintf(":%d", qsBusiPort))
@@ -36,7 +35,7 @@ func QsStartSvr() {
 func QsFireRequest() string {
 	req := &gin.H{"amount": 30} // 微服务的载荷
 	// DtmServer为DTM服务的地址
-	saga := dtmcli.NewSaga(dtmsvr.DefaultHttpServer, dtmcli.MustGenGid(dtmsvr.DefaultHttpServer)).
+	saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 		// 添加一个TransOut的子事务，正向操作为url: qsBusi+"/TransOut"， 逆向操作为url: qsBusi+"/TransOutCompensate"
 		Add(qsBusi+"/TransOut", qsBusi+"/TransOutCompensate", req).
 		// 添加一个TransIn的子事务，正向操作为url: qsBusi+"/TransOut"， 逆向操作为url: qsBusi+"/TransInCompensate"
@@ -48,19 +47,19 @@ func QsFireRequest() string {
 }
 
 func qsAddRoute(app *gin.Engine) {
-	app.POST(qsBusiAPI+"/TransIn", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+	app.POST(qsBusiAPI+"/TransIn", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 		logger.Infof("TransIn")
 		return dtmcli.MapSuccess, nil
 	}))
-	app.POST(qsBusiAPI+"/TransInCompensate", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+	app.POST(qsBusiAPI+"/TransInCompensate", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 		logger.Infof("TransInCompensate")
 		return dtmcli.MapSuccess, nil
 	}))
-	app.POST(qsBusiAPI+"/TransOut", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+	app.POST(qsBusiAPI+"/TransOut", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 		logger.Infof("TransOut")
 		return dtmcli.MapSuccess, nil
 	}))
-	app.POST(qsBusiAPI+"/TransOutCompensate", common.WrapHandler(func(c *gin.Context) (interface{}, error) {
+	app.POST(qsBusiAPI+"/TransOutCompensate", dtmutil.WrapHandler(func(c *gin.Context) (interface{}, error) {
 		logger.Infof("TransOutCompensate")
 		return dtmcli.MapSuccess, nil
 	}))

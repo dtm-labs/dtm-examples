@@ -7,17 +7,17 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli"
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli"
+	"github.com/dtm-labs/dtmcli/logger"
 )
 
 func init() {
 	addSample("msg", func() string {
 		logger.Debugf("a busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
-		msg := dtmcli.NewMsg(dtmsvr.DefaultHttpServer, dtmcli.MustGenGid(dtmsvr.DefaultHttpServer)).
+		msg := dtmcli.NewMsg(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/TransOut", req).
 			Add(busi.Busi+"/TransIn", req)
 		err := msg.Prepare(busi.Busi + "/query")

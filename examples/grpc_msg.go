@@ -7,17 +7,17 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	dtmgrpc "github.com/dtm-labs/dtm/dtmgrpc"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli/logger"
+	dtmgrpc "github.com/dtm-labs/dtmgrpc"
 )
 
 func init() {
 	addSample("grpc_msg", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmsvr.DefaultGrpcServer)
-		msg := dtmgrpc.NewMsgGrpc(dtmsvr.DefaultGrpcServer, gid).
+		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		msg := dtmgrpc.NewMsgGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/examples.Busi/TransOut", req).
 			Add(busi.BusiGrpc+"/examples.Busi/TransIn", req)
 		err := msg.Submit()

@@ -1,6 +1,6 @@
 package examples
 
-import "github.com/dtm-labs/dtm/dtmcli/logger"
+import "github.com/dtm-labs/dtmcli/logger"
 
 type sampleInfo struct {
 	Arg    string

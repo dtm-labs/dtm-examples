@@ -7,17 +7,17 @@
 package examples
 
 import (
-	"github.com/dtm-labs/dtm/dtmcli"
-	"github.com/dtm-labs/dtm/dtmcli/logger"
-	"github.com/dtm-labs/dtm/dtmsvr"
-	"github.com/dtm-labs/dtm/test/busi"
+	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli"
+	"github.com/dtm-labs/dtmcli/logger"
 )
 
 func init() {
 	addSample("saga", func() string {
 		logger.Debugf("a saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmsvr.DefaultHttpServer, dtmcli.MustGenGid(dtmsvr.DefaultHttpServer)).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
 		logger.Debugf("saga busi trans submit")
@@ -29,7 +29,7 @@ func init() {
 	addSample("saga_wait", func() string {
 		logger.Debugf("a saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmsvr.DefaultHttpServer, dtmcli.MustGenGid(dtmsvr.DefaultHttpServer)).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
 		saga.SetOptions(&dtmcli.TransOptions{WaitResult: true})
@@ -41,7 +41,7 @@ func init() {
 	addSample("concurrent_saga", func() string {
 		logger.Debugf("a concurrent saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
-		csaga := dtmcli.NewSaga(dtmsvr.DefaultHttpServer, dtmcli.MustGenGid(dtmsvr.DefaultHttpServer)).
+		csaga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req).
