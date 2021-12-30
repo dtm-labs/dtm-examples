@@ -20,11 +20,11 @@ func init() {
 		req := &busi.BusiReq{Amount: 30}
 		err := busi.XaGrpcClient.XaGlobalTransaction(gid, func(xa *dtmgrpc.XaGrpc) error {
 			r := &emptypb.Empty{}
-			err := xa.CallBranch(req, busi.BusiGrpc+"/examples.Busi/TransOutXa", r)
+			err := xa.CallBranch(req, busi.BusiGrpc+"/busi.Busi/TransOutXa", r)
 			if err != nil {
 				return err
 			}
-			err = xa.CallBranch(req, busi.BusiGrpc+"/examples.Busi/TransInXa", r)
+			err = xa.CallBranch(req, busi.BusiGrpc+"/busi.Busi/TransInXa", r)
 			return err
 		})
 		logger.FatalIfError(err)

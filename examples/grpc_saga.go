@@ -18,8 +18,8 @@ func init() {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
-			Add(busi.BusiGrpc+"/examples.Busi/TransOut", busi.BusiGrpc+"/examples.Busi/TransOutRevert", req).
-			Add(busi.BusiGrpc+"/examples.Busi/TransIn", busi.BusiGrpc+"/examples.Busi/TransInRevert", req)
+			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
+			Add(busi.BusiGrpc+"/busi.Busi/TransIn", busi.BusiGrpc+"/busi.Busi/TransInRevert", req)
 		err := saga.Submit()
 		logger.FatalIfError(err)
 		return saga.Gid
@@ -28,8 +28,8 @@ func init() {
 		req := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
-			Add(busi.BusiGrpc+"/examples.Busi/TransOut", busi.BusiGrpc+"/examples.Busi/TransOutRevert", req).
-			Add(busi.BusiGrpc+"/examples.Busi/TransIn", busi.BusiGrpc+"/examples.Busi/TransInRevert", req)
+			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
+			Add(busi.BusiGrpc+"/busi.Busi/TransIn", busi.BusiGrpc+"/busi.Busi/TransInRevert", req)
 		err := saga.Submit()
 		logger.FatalIfError(err)
 		return saga.Gid
@@ -38,8 +38,8 @@ func init() {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
-			Add(busi.BusiGrpc+"/examples.Busi/TransOut", busi.BusiGrpc+"/examples.Busi/TransOutRevert", req).
-			Add(busi.BusiGrpc+"/examples.Busi/TransIn", busi.BusiGrpc+"/examples.Busi/TransInRevert", req)
+			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
+			Add(busi.BusiGrpc+"/busi.Busi/TransIn", busi.BusiGrpc+"/busi.Busi/TransInRevert", req)
 		saga.WaitResult = true
 		err := saga.Submit()
 		logger.FatalIfError(err)

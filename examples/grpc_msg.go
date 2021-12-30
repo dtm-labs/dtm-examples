@@ -18,8 +18,8 @@ func init() {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		msg := dtmgrpc.NewMsgGrpc(dtmutil.DefaultGrpcServer, gid).
-			Add(busi.BusiGrpc+"/examples.Busi/TransOut", req).
-			Add(busi.BusiGrpc+"/examples.Busi/TransIn", req)
+			Add(busi.BusiGrpc+"/busi.Busi/TransOut", req).
+			Add(busi.BusiGrpc+"/busi.Busi/TransIn", req)
 		err := msg.Submit()
 		logger.FatalIfError(err)
 		return msg.Gid

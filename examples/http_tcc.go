@@ -51,7 +51,7 @@ func init() {
 			}
 			return tcc.CallBranch(req, busi.Busi+"/TransIn", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
 		})
-		logger.FatalIfError(err)
+		logger.Errorf("error is: %s", err.Error())
 		return gid
 	})
 }

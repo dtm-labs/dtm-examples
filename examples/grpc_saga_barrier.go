@@ -18,8 +18,8 @@ func init() {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
-			Add(busi.BusiGrpc+"/examples.Busi/TransOutBSaga", busi.BusiGrpc+"/examples.Busi/TransOutRevertBSaga", req).
-			Add(busi.BusiGrpc+"/examples.Busi/TransInBSaga", busi.BusiGrpc+"/examples.Busi/TransInRevertBSaga", req)
+			Add(busi.BusiGrpc+"/busi.Busi/TransOutBSaga", busi.BusiGrpc+"/busi.Busi/TransOutRevertBSaga", req).
+			Add(busi.BusiGrpc+"/busi.Busi/TransInBSaga", busi.BusiGrpc+"/busi.Busi/TransInRevertBSaga", req)
 		err := saga.Submit()
 		logger.FatalIfError(err)
 		return saga.Gid

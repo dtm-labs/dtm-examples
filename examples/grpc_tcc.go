@@ -21,11 +21,11 @@ func init() {
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
 			data := &busi.BusiReq{Amount: 30}
 			r := &emptypb.Empty{}
-			err := tcc.CallBranch(data, busi.BusiGrpc+"/examples.Busi/TransOutTcc", busi.BusiGrpc+"/examples.Busi/TransOutConfirm", busi.BusiGrpc+"/examples.Busi/TransOutRevert", r)
+			err := tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransOutTcc", busi.BusiGrpc+"/busi.Busi/TransOutConfirm", busi.BusiGrpc+"/busi.Busi/TransOutRevert", r)
 			if err != nil {
 				return err
 			}
-			err = tcc.CallBranch(data, busi.BusiGrpc+"/examples.Busi/TransInTcc", busi.BusiGrpc+"/examples.Busi/TransInConfirm", busi.BusiGrpc+"/examples.Busi/TransInRevert", r)
+			err = tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransInTcc", busi.BusiGrpc+"/busi.Busi/TransInConfirm", busi.BusiGrpc+"/busi.Busi/TransInRevert", r)
 			return err
 		})
 		logger.FatalIfError(err)
@@ -37,14 +37,14 @@ func init() {
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
 			data := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
 			r := &emptypb.Empty{}
-			err := tcc.CallBranch(data, busi.BusiGrpc+"/examples.Busi/TransOutTcc", busi.BusiGrpc+"/examples.Busi/TransOutConfirm", busi.BusiGrpc+"/examples.Busi/TransOutRevert", r)
+			err := tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransOutTcc", busi.BusiGrpc+"/busi.Busi/TransOutConfirm", busi.BusiGrpc+"/busi.Busi/TransOutRevert", r)
 			if err != nil {
 				return err
 			}
-			err = tcc.CallBranch(data, busi.BusiGrpc+"/examples.Busi/TransInTcc", busi.BusiGrpc+"/examples.Busi/TransInConfirm", busi.BusiGrpc+"/examples.Busi/TransInRevert", r)
+			err = tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransInTcc", busi.BusiGrpc+"/busi.Busi/TransInConfirm", busi.BusiGrpc+"/busi.Busi/TransInRevert", r)
 			return err
 		})
-		logger.FatalIfError(err)
+		logger.Errorf("error is: %s", err.Error())
 		return gid
 	})
 }
