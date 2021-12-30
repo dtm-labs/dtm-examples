@@ -26,10 +26,14 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dtm-labs/dtmcli v1.7.5 h1:n8hcXTMcWTIEbWPOnmxVOM4wtDMWKYqcipcdj1/FEk0=
 github.com/dtm-labs/dtmcli v1.7.5/go.mod h1:RScM1n5706gorN5Lreett4YjNJckkj+RJm/ab3gjW2Y=
+github.com/dtm-labs/dtmcli v1.8.0 h1:bcYrM/LxnQ+q/0VYZqGPAIkxFHjZ9SRwpvqACE5+z60=
+github.com/dtm-labs/dtmcli v1.8.0/go.mod h1:RScM1n5706gorN5Lreett4YjNJckkj+RJm/ab3gjW2Y=
 github.com/dtm-labs/dtmdriver v0.0.1 h1:dHUZQ6g2ZN6eRUqds9kKq/3K7u9bcUGatUlbthD92fA=
 github.com/dtm-labs/dtmdriver v0.0.1/go.mod h1:fLiEeD2BPwM9Yq96TfcP9KpbTwFsn5nTxa/PP0jmFuk=
 github.com/dtm-labs/dtmgrpc v1.7.5 h1:Hc6HLCthuqXsdZrVPygJ0VXq5izvDUpQNCmItoO0U4w=
 github.com/dtm-labs/dtmgrpc v1.7.5/go.mod h1:VleQ2EfB8Q51UQIHFNOGagVplr609517R5VkezTa7Y4=
+github.com/dtm-labs/dtmgrpc v1.8.0 h1:aykeXSAU0fhdmjU+MaFmSbyOrGlFA/W0B7vGe4HaZdo=
+github.com/dtm-labs/dtmgrpc v1.8.0/go.mod h1:dIgUJnnNYHshaRGcpNUz00FMGO5Z5Qb9HkQWBQ7Y4rs=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=

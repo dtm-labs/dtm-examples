@@ -15,7 +15,6 @@ import (
 
 func init() {
 	AddCommand("http_saga", func() string {
-		logger.Debugf("a saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
@@ -26,8 +25,18 @@ func init() {
 		logger.FatalIfError(err)
 		return saga.Gid
 	})
+	AddCommand("http_saga_rollback", func() string {
+		req := &busi.TransReq{Amount: 30, TransInResult: "FAILURE"}
+		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
+			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
+			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
+		logger.Debugf("saga busi trans submit")
+		err := saga.Submit()
+		logger.Debugf("result gid is: %s", saga.Gid)
+		logger.FatalIfError(err)
+		return saga.Gid
+	})
 	AddCommand("http_saga_wait", func() string {
-		logger.Debugf("a saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
@@ -39,7 +48,6 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("http_concurrent_saga", func() string {
-		logger.Debugf("a concurrent saga busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		csaga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).

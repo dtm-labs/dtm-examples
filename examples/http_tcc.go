@@ -40,4 +40,18 @@ func init() {
 		logger.FatalIfError(err)
 		return gid
 	})
+	AddCommand("http_tcc_rollback", func() string {
+		logger.Debugf("tcc simple transaction begin")
+		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
+		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHttpServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
+			req := &busi.TransReq{Amount: 30, TransInResult: "FAILURE"}
+			resp, err := tcc.CallBranch(req, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
+			if err != nil {
+				return resp, err
+			}
+			return tcc.CallBranch(req, busi.Busi+"/TransIn", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
+		})
+		logger.FatalIfError(err)
+		return gid
+	})
 }

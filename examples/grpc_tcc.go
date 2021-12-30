@@ -31,4 +31,20 @@ func init() {
 		logger.FatalIfError(err)
 		return gid
 	})
+	AddCommand("grpc_tcc_rollback", func() string {
+		logger.Debugf("tcc simple transaction begin")
+		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
+			data := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
+			r := &emptypb.Empty{}
+			err := tcc.CallBranch(data, busi.BusiGrpc+"/examples.Busi/TransOutTcc", busi.BusiGrpc+"/examples.Busi/TransOutConfirm", busi.BusiGrpc+"/examples.Busi/TransOutRevert", r)
+			if err != nil {
+				return err
+			}
+			err = tcc.CallBranch(data, busi.BusiGrpc+"/examples.Busi/TransInTcc", busi.BusiGrpc+"/examples.Busi/TransInConfirm", busi.BusiGrpc+"/examples.Busi/TransInRevert", r)
+			return err
+		})
+		logger.FatalIfError(err)
+		return gid
+	})
 }

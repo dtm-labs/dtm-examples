@@ -24,6 +24,16 @@ func init() {
 		logger.FatalIfError(err)
 		return saga.Gid
 	})
+	AddCommand("grpc_saga_rollback", func() string {
+		req := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
+		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
+			Add(busi.BusiGrpc+"/examples.Busi/TransOut", busi.BusiGrpc+"/examples.Busi/TransOutRevert", req).
+			Add(busi.BusiGrpc+"/examples.Busi/TransIn", busi.BusiGrpc+"/examples.Busi/TransInRevert", req)
+		err := saga.Submit()
+		logger.FatalIfError(err)
+		return saga.Gid
+	})
 	AddCommand("grpc_saga_wait", func() string {
 		req := &busi.BusiReq{Amount: 30}
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
