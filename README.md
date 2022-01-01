@@ -91,7 +91,7 @@ go run main.go http_saga_barrier
 您查找名字带有gorm的例子即可
 
 ### 自定义header
-有一部分的业务中的子事务，需要自定义header。dtm支持全局事务维度的header定制，即您可以给一个全局事务指定自定义header，dtm调用您的子事务服务时，将会添加您指定的header
+有一部分的业务中的子事务，需要自定义header。dtm支持全局事务粒度的header定制，即您可以给各个全局事务指定自定义header，dtm调用您的子事务服务时，将会添加您指定的header
 
 HTTP和gRPC都支持自定义header，详情可以参考名字中带有Header的例子
 ## 其他例子
