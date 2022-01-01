@@ -24,7 +24,7 @@ go run main.go qs
 
 运行上述这个例子中，可以看到输出TransOut TransIn，那么一个跨行转账的分布式事务，包含了转出和转入两个子事务，就已经成功完成
 
-## 更多的示例
+## 常见维度的示例
 当您运行完上述例子，有了最初的概念之后，下面我们来详细讲解更多的例子。
 
 examples里面的例子中，quick_start做成了完全独立不共享代码的应用，这样方便使用者快速复制出代码，然后进行修改并上线自己的应用。其他的例子则封装可能会多一些，但原理与quick_start是近似的，用户需要详细研究的话，自己跟踪调试一下代码即可。
@@ -84,11 +84,16 @@ go run main.go http_saga_barrier
 ### 事务回滚
 我们有很多例子中也演示了回滚的情况，您查找名字含有rollback的例子即可
 
+## 更多特性
 ### 第三方ORM
 在我们的示例中，还演示了与第三方ORM例如gorm的对接，未来会看需求给出更多第三方ORM的例子
 
 您查找名字带有gorm的例子即可
 
+### 自定义header
+有一部分的业务中的子事务，需要自定义header。dtm支持全局事务维度的header定制，即您可以给一个全局事务指定自定义header，dtm调用您的子事务服务时，将会添加您指定的header
+
+HTTP和gRPC都支持自定义header，详情可以参考名字中带有Header的例子
 ## 其他例子
 
 - 最简短的HTTP协议事务例子：[dtmcli-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)
