@@ -1,6 +1,9 @@
 package examples
 
-import "github.com/dtm-labs/dtmcli/logger"
+import (
+	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/dtm-labs/dtmcli/logger"
+)
 
 type commandInfo struct {
 	Arg    string
@@ -32,3 +35,5 @@ func Call(name string) {
 		}
 	}
 }
+
+var DtmServer = dtmutil.DefaultHttpServer

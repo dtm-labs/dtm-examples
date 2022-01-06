@@ -7,6 +7,8 @@
 package examples
 
 import (
+	"database/sql"
+
 	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli"
@@ -26,5 +28,16 @@ func init() {
 		err = msg.Submit()
 		logger.FatalIfError(err)
 		return msg.Gid
+	})
+	AddCommand("http_msg_prepareAndCommit", func() string {
+		gid := dtmcli.MustGenGid(DtmServer)
+		req := busi.GenTransReq(30, false, false)
+		msg := dtmcli.NewMsg(DtmServer, gid).
+			Add(busi.Busi+"/SagaBTransIn", req)
+		err := msg.PrepareAndSubmit(busi.Busi+"/QueryPreparedB", dtmutil.DbGet(busi.BusiConf).ToSQLDB(), func(tx *sql.Tx) error {
+			return busi.SagaAdjustBalance(tx, busi.TransOutUID, -req.Amount, "SUCCESS")
+		})
+		logger.FatalIfError(err)
+		return gid
 	})
 }
