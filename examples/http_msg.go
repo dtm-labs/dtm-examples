@@ -19,7 +19,7 @@ func init() {
 	AddCommand("http_msg", func() string {
 		logger.Debugf("a busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
-		msg := dtmcli.NewMsg(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
+		msg := dtmcli.NewMsg(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
 			Add(busi.Busi+"/TransOut", req).
 			Add(busi.Busi+"/TransIn", req)
 		err := msg.Prepare(busi.Busi + "/query")

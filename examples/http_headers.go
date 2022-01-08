@@ -16,9 +16,9 @@ import (
 
 func init() {
 	AddCommand("http_saga_customHeaders", func() string {
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
+		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, gid).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, gid).
 			Add(busi.Busi+"/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists
 		saga.BranchHeaders = map[string]string{
 			"test_header": "test",
@@ -29,8 +29,8 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("http_tcc_customHeaders", func() string {
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer)
-		err := dtmcli.TccGlobalTransaction2(dtmutil.DefaultHttpServer, gid, func(t *dtmcli.Tcc) {
+		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		err := dtmcli.TccGlobalTransaction2(dtmutil.DefaultHTTPServer, gid, func(t *dtmcli.Tcc) {
 			t.BranchHeaders = map[string]string{
 				"test_header": "test",
 			}
@@ -44,10 +44,10 @@ func init() {
 	})
 	AddCommand("http_saga_passthroughHeaders", func() string {
 		dtmcli.SetPassthroughHeaders([]string{"test_header"}) // set passthrough headers. dtm will
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHttpServer) + "HeadersYes"
+		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer) + "HeadersYes"
 		dtmcli.OnBeforeRequest(busi.SetHttpHeaderForHeadersYes) // will set header in this middleware
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, gid).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, gid).
 			Add(busi.Busi+"/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists
 		saga.WaitResult = true
 		err := saga.Submit()

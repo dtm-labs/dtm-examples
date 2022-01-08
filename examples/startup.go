@@ -36,4 +36,4 @@ func Call(name string) {
 	}
 }
 
-var DtmServer = dtmutil.DefaultHttpServer
+var DtmServer = dtmutil.DefaultHTTPServer

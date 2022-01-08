@@ -17,7 +17,7 @@ func init() {
 	AddCommand("http_saga_barrier", func() string {
 		logger.Debugf("a busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmutil.DefaultHttpServer, dtmcli.MustGenGid(dtmutil.DefaultHttpServer)).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
 			Add(busi.Busi+"/SagaBTransOut", busi.Busi+"/SagaBTransOutCompensate", req).
 			Add(busi.Busi+"/SagaBTransIn", busi.Busi+"/SagaBTransInCompensate", req)
 		logger.Debugf("busi trans submit")
