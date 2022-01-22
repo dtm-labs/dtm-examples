@@ -97,5 +97,5 @@ HTTP和gRPC都支持自定义header，详情可以参考名字中带有Header的
 ## 其他例子
 
 - 最简短的HTTP协议事务例子：[dtmcli-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)
-- 最尖端的gRPC协议事务例子：[dtmgrpc-go-sample](https://github.com/dtm-labs/dtmgrpc-go-sample)
+- 最简短的gRPC协议事务例子：[dtmgrpc-go-sample](https://github.com/dtm-labs/dtmgrpc-go-sample)
 - 其他微服务协议事务例子：[dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients)
