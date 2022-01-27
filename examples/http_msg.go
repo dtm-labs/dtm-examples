@@ -34,7 +34,7 @@ func init() {
 		req := busi.GenTransReq(30, false, false)
 		msg := dtmcli.NewMsg(DtmServer, gid).
 			Add(busi.Busi+"/SagaBTransIn", req)
-		err := msg.PrepareAndSubmit(busi.Busi+"/QueryPreparedB", dtmutil.DbGet(busi.BusiConf).ToSQLDB(), func(tx *sql.Tx) error {
+		err := msg.DoAndSubmitDB(busi.Busi+"/QueryPreparedB", dtmutil.DbGet(busi.BusiConf).ToSQLDB(), func(tx *sql.Tx) error {
 			return busi.SagaAdjustBalance(tx, busi.TransOutUID, -req.Amount, "SUCCESS")
 		})
 		logger.FatalIfError(err)

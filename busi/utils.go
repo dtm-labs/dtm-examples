@@ -3,8 +3,12 @@ package busi
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
+	sync "sync"
+	"time"
 
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/dtmimp"
@@ -13,6 +17,7 @@ import (
 	"github.com/dtm-labs/dtmgrpc/dtmgpb"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
 	"github.com/go-resty/resty/v2"
 	grpc "google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -75,11 +80,66 @@ func SetGrpcHeaderForHeadersYes(ctx context.Context, method string, req, reply i
 	return invoker(ctx, method, req, reply, cc, opts...)
 }
 
-// SetHttpHeaderForHeadersYes interceptor to set head for HeadersYes
-func SetHttpHeaderForHeadersYes(c *resty.Client, r *resty.Request) error {
+// SetHTTPHeaderForHeadersYes interceptor to set head for HeadersYes
+func SetHTTPHeaderForHeadersYes(c *resty.Client, r *resty.Request) error {
 	if b, ok := r.Body.(*dtmcli.Saga); ok && strings.HasSuffix(b.Gid, "HeadersYes") {
 		logger.Debugf("set test_header for url: %s", r.URL)
 		r.SetHeader("test_header", "yes")
 	}
 	return nil
+}
+
+// oldWrapHandler old wrap handler for test use of dtm
+func oldWrapHandler(fn func(*gin.Context) (interface{}, error)) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		began := time.Now()
+		r, err := func() (r interface{}, rerr error) {
+			defer dtmimp.P2E(&rerr)
+			return fn(c)
+		}()
+		var b = []byte{}
+		if resp, ok := r.(*resty.Response); ok { // 如果是response，则取出body直接处理
+			b = resp.Body()
+		} else if err == nil {
+			b, err = json.Marshal(r)
+		}
+
+		if err != nil {
+			logger.Errorf("%2dms 500 %s %s %s %s", time.Since(began).Milliseconds(), err.Error(), c.Request.Method, c.Request.RequestURI, string(b))
+			c.JSON(500, map[string]interface{}{"code": 500, "message": err.Error()})
+		} else {
+			logger.Infof("%2dms 200 %s %s %s", time.Since(began).Milliseconds(), c.Request.Method, c.Request.RequestURI, string(b))
+			c.Status(200)
+			c.Writer.Header().Add("Content-Type", "application/json")
+			_, err = c.Writer.Write(b)
+			dtmimp.E2P(err)
+		}
+	}
+}
+
+var (
+	rdb  *redis.Client
+	once sync.Once
+)
+
+// RedisGet 1
+func RedisGet() *redis.Client {
+	once.Do(func() {
+		logger.Debugf("connecting to client redis")
+		rdb = redis.NewClient(&redis.Options{
+			Addr:     dtmimp.OrString(os.Getenv("BUSI_REDIS"), "localhost:6379"),
+			Username: "root",
+			Password: "",
+		})
+	})
+	return rdb
+}
+
+// SetRedisBothAccount 1
+func SetRedisBothAccount(accountA int, accountB int) {
+	rd := RedisGet()
+	_, err := rd.Set(rd.Context(), GetRedisAccountKey(TransOutUID), accountA, 0).Result()
+	dtmimp.E2P(err)
+	_, err = rd.Set(rd.Context(), GetRedisAccountKey(TransInUID), accountB, 0).Result()
+	dtmimp.E2P(err)
 }

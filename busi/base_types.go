@@ -15,6 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// BusiConf 1
 var BusiConf = dtmcli.DBConf{
 	Driver: "mysql",
 	Host:   "localhost",
@@ -22,17 +23,26 @@ var BusiConf = dtmcli.DBConf{
 	User:   "root",
 }
 
+// UserAccount 1
 type UserAccount struct {
-	UserId         int
+	UserID         int
 	Balance        string
 	TradingBalance string
 }
 
+// TableName 1
 func (*UserAccount) TableName() string {
 	return "dtm_busi.user_account"
 }
 
-func GetBalanceByUid(uid int) int {
+// GetBalanceByUID 1
+func GetBalanceByUID(uid int, store string) int {
+	if store == "redis" {
+		rd := RedisGet()
+		accA, err := rd.Get(rd.Context(), GetRedisAccountKey(uid)).Result()
+		dtmimp.E2P(err)
+		return dtmimp.MustAtoi(accA)
+	}
 	ua := UserAccount{}
 	_ = dbGet().Must().Model(&ua).Where("user_id=?", uid).First(&ua)
 	return dtmimp.MustAtoi(ua.Balance[:len(ua.Balance)-3])
@@ -43,6 +53,7 @@ type TransReq struct {
 	Amount         int    `json:"amount"`
 	TransInResult  string `json:"trans_in_result"`
 	TransOutResult string `json:"trans_out_Result"`
+	Store          string `json:"store"` // default mysql, value can be mysql|redis
 }
 
 func (t *TransReq) String() string {
@@ -119,3 +130,8 @@ type mainSwitchType struct {
 
 // MainSwitch controls busi success or fail
 var MainSwitch mainSwitchType
+
+// GetRedisAccountKey return redis key for uid
+func GetRedisAccountKey(uid int) string {
+	return fmt.Sprintf("{a}-redis-account-key-%d", uid)
+}

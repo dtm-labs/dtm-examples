@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/dtm-labs/dtmgrpc"
@@ -26,13 +27,13 @@ import (
 )
 
 // BusiGrpc busi service grpc address
-var BusiGrpc string = fmt.Sprintf("localhost:%d", BusiGrpcPort)
+var BusiGrpc = fmt.Sprintf("localhost:%d", BusiGrpcPort)
 
 // DtmClient grpc client for dtm
-var DtmClient dtmgpb.DtmClient = nil
+var DtmClient dtmgpb.DtmClient
 
 // XaGrpcClient XA client connection
-var XaGrpcClient *dtmgrpc.XaGrpcClient = nil
+var XaGrpcClient *dtmgrpc.XaGrpcClient
 
 func init() {
 	setupFuncs["XaGrpcSetup"] = func(app *gin.Engine) {
@@ -65,7 +66,9 @@ type busiServer struct {
 
 func (s *busiServer) QueryPrepared(ctx context.Context, in *BusiReq) (*BusiReply, error) {
 	res := MainSwitch.QueryPreparedResult.Fetch()
-	return &BusiReply{Message: "a sample data"}, dtmgimp.Result2Error(res, nil)
+	err := dtmcli.String2DtmError(res)
+
+	return &BusiReply{Message: "a sample data"}, dtmgrpc.DtmError2GrpcError(err)
 }
 
 func (s *busiServer) TransIn(ctx context.Context, in *BusiReq) (*emptypb.Empty, error) {
