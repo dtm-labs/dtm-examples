@@ -39,13 +39,11 @@ func main() {
 	time.Sleep(2000 * time.Millisecond)
 	cmd := os.Args[1]
 	if cmd == "qs" {
-		examples.QsStartSvr()
-		examples.QsFireRequest()
+		busi.QsMain()
 	} else if examples.IsExists(cmd) {
 		examples.Call(cmd)
 	} else {
 		hintExit("unknown command: " + cmd)
 	}
-	time.Sleep(3 * time.Second)
 	select {}
 }
