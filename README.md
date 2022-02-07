@@ -1,5 +1,10 @@
 # DTM 示例
-本项目含大量示例，并且有详细的教程说明如何一步一步上手开发相关的示例
+dtm 有许多示例，帮助大家快速上手分布式事务
+[dtmcli-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)：一个最简的 dtm HTTP客户端使用示例
+[dtmgrpc-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)：一个最简的 dtm gRPC客户端使用示例
+[dtm-examples](https://github.com/dtm-labs/dtm-examples): 项目含大量示例，主要演示了dtm SDK的各种用法。
+[dtm-cases](https://github.com/dtm-labs/dtm-cases)：包含多个项目，主要演示dtm在部分领域的完整应用，例如订单系统，秒杀系统。
+[dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients)：包含dtm对微服务框架的支持，例如go-zero的示例
 
 ## 运行dtm服务器
 您要运行这里的例子，需要首先运行dtm服务器，运行的方式，可以选择最常见的源码运行方式：
@@ -44,7 +49,7 @@ dtm支持http协议和gRPC协议
 
 ### 事务模式
 dtm支持多种事务模式，在所有的例子中，都会带上事务模式的名称，分别如下，您可以根据您的需要进行选择
-- saga：只提供正向action和补偿compensate操作
+- saga：只需要提供正向action和补偿compensate操作
 - tcc：提供try、confirm和cancel三个操作
 - xa：仅需要提供正常的正向操作，回滚由底层数据库支持
 - msg：二阶段消息，不支持回滚
@@ -54,33 +59,9 @@ dtm支持多种事务模式，在所有的例子中，都会带上事务模式�
 ### 数据库
 分布式事务通常是要将多个本地事务组合成一个整体全局事务，因此大量的实际业务是带着数据库的。dtm也首创了子事务屏障，帮助用户更好的解决空补偿、悬挂、幂等相关问题。
 
-在带有barrier的示例中，会演示与数据库相关的技巧。运行这部分例子，需要您在如下位置配置好examples连接的数据库：
+在带有barrier的示例中，会演示与数据库相关的技巧。dtm提供了一个示例mysql供大家使用，省去大家配置数据库的麻烦。
 
-``` Go
-  // main.go -> main()
-	busi.BusiConf = dtmimp.DBConf{
-		Driver: "mysql", // 取值为 postgres|mysql
-		Host:   "localhost",
-		Port:   3306,
-		User:   "root",
-	}
-```
-
-并且您需要在数据库中创建本示例项目所需要的表，相关的建表sql可以在这里[dtm-sqls](https://github.com/dtm-labs/dtm/tree/main/sqls)找到
-
-在你的数据库中执行这两个sql（假设您的数据库为mysql）
-
-```
-dtmcli.barrier.mysql.sql
-examples.mysql.sql
-```
-
-如果以下命令成功运行，则您的数据库已成功配置
-
-```
-go run main.go http_saga_barrier
-```
-
+> 如果您想要配置自己的数据库，参见[dtm文档](https://dtm.pub)中的部署与运维
 ### 事务回滚
 我们有很多例子中也演示了回滚的情况，您查找名字含有rollback的例子即可
 
