@@ -29,7 +29,7 @@ func init() {
 		logger.FatalIfError(err)
 		return msg.Gid
 	})
-	AddCommand("http_msg_prepareAndCommit", func() string {
+	AddCommand("http_msg_doAndCommit", func() string {
 		gid := dtmcli.MustGenGid(DtmServer)
 		req := busi.GenTransReq(30, false, false)
 		msg := dtmcli.NewMsg(DtmServer, gid).

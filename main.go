@@ -29,14 +29,16 @@ func main() {
 		hintExit("")
 	}
 	logger.InitLog("debug")
+	busi.StoreHost = "dtm.pub"
 	busi.BusiConf = dtmimp.DBConf{
-		Driver: "mysql",
-		Host:   "localhost",
-		Port:   3306,
-		User:   "root",
+		Driver:   "mysql",
+		Host:     busi.StoreHost,
+		Port:     3306,
+		User:     "dtm",
+		Password: "passwd123dtm",
 	}
 	busi.Startup()
-	time.Sleep(2000 * time.Millisecond)
+	time.Sleep(200 * time.Millisecond)
 	cmd := os.Args[1]
 	if cmd == "qs" {
 		busi.QsMain()
