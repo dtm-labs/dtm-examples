@@ -18,9 +18,9 @@ func hintExit(msg string) {
 		fmt.Print(msg, "\n")
 	}
 	fmt.Printf("Usage: %s <command>\n\nCommand can be one of the following:\n\n", filepath.Base(os.Args[0]))
-	fmt.Printf("%4s%-28srun a quick start example\n", "", "qs")
+	fmt.Printf("%4s%-32srun a quick start example\n", "", "qs")
 	for _, cmd := range examples.Commands {
-		fmt.Printf("%4s%-28srun an example includes %s\n", "", cmd.Arg, strings.ReplaceAll(cmd.Arg, "_", " "))
+		fmt.Printf("%4s%-32srun an example includes %s\n", "", cmd.Arg, strings.ReplaceAll(cmd.Arg, "_", " "))
 	}
 	os.Exit(0)
 }
