@@ -18,8 +18,8 @@ func init() {
 		busi.SetRedisBothAccount(10000, 10000)
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
-			Add(busi.Busi+"/SagaRedisTransOut", busi.Busi+"/SagaRedisTransOutCompensate", req).
-			Add(busi.Busi+"/SagaRedisTransIn", busi.Busi+"/SagaRedisTransInCompensate", req)
+			Add(busi.Busi+"/SagaRedisTransOut", busi.Busi+"/SagaRedisTransOutCom", req).
+			Add(busi.Busi+"/SagaRedisTransIn", busi.Busi+"/SagaRedisTransInCom", req)
 		logger.Debugf("busi trans submit")
 		err := saga.Submit()
 		logger.FatalIfError(err)

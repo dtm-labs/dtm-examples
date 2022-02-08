@@ -22,7 +22,7 @@ func init() {
 			if err != nil {
 				return resp, err
 			}
-			return tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransInTccParent", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
+			return tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransInTccNested", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
 		})
 		logger.FatalIfError(err)
 		return gid

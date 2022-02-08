@@ -18,8 +18,19 @@ func init() {
 		logger.Debugf("a busi transaction begin")
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
-			Add(busi.Busi+"/SagaBTransOut", busi.Busi+"/SagaBTransOutCompensate", req).
-			Add(busi.Busi+"/SagaBTransIn", busi.Busi+"/SagaBTransInCompensate", req)
+			Add(busi.Busi+"/SagaBTransOut", busi.Busi+"/SagaBTransOutCom", req).
+			Add(busi.Busi+"/SagaBTransIn", busi.Busi+"/SagaBTransInCom", req)
+		logger.Debugf("busi trans submit")
+		err := saga.Submit()
+		logger.FatalIfError(err)
+		return saga.Gid
+	})
+	AddCommand("http_saga_barrier_twice", func() string {
+		logger.Debugf("a busi transaction begin")
+		req := &busi.TransReq{Amount: 30}
+		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
+			Add(busi.Busi+"/SagaBTransOut", busi.Busi+"/SagaBTransOutCom", req).
+			Add(busi.Busi+"/SagaB2TransIn", busi.Busi+"/SagaB2TransInCom", req)
 		logger.Debugf("busi trans submit")
 		err := saga.Submit()
 		logger.FatalIfError(err)

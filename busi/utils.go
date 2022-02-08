@@ -127,14 +127,12 @@ var (
 // RedisGet 1
 func RedisGet() *redis.Client {
 	once.Do(func() {
-		addr := fmt.Sprintf("%s:6379", StoreHost)
-		logger.Debugf("connecting to client redis: %s", addr)
+		logger.Debugf("connecting to client redis")
 		rdb = redis.NewClient(&redis.Options{
-			Addr:     addr,
+			Addr:     fmt.Sprintf("%s:6379", StoreHost),
 			Username: "root",
 			Password: "",
 		})
-		logger.Debugf("connect return: %v", rdb)
 	})
 	return rdb
 }
