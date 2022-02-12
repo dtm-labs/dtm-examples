@@ -1,10 +1,10 @@
 # DTM 示例
 dtm 有许多示例，帮助大家快速上手分布式事务
-[dtmcli-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)：一个最简的 dtm HTTP客户端使用示例
-[dtmgrpc-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)：一个最简的 dtm gRPC客户端使用示例
-[dtm-examples](https://github.com/dtm-labs/dtm-examples): 项目含大量示例，主要演示了dtm SDK的各种用法。
-[dtm-cases](https://github.com/dtm-labs/dtm-cases)：包含多个项目，主要演示dtm在部分领域的完整应用，例如订单系统，秒杀系统。
-[dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients)：包含dtm对微服务框架的支持，例如go-zero的示例
+- [dtmcli-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)：一个最简的 dtm HTTP客户端使用示例
+- [dtmgrpc-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)：一个最简的 dtm gRPC客户端使用示例
+- [dtm-examples](https://github.com/dtm-labs/dtm-examples): 项目含大量示例，主要演示了dtm SDK的各种用法。
+- [dtm-cases](https://github.com/dtm-labs/dtm-cases)：包含多个项目，主要演示dtm在部分领域的完整应用，例如订单系统，秒杀系统。
+- [dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients)：包含dtm对微服务框架的支持，例如go-zero的示例
 
 ## 运行dtm服务器
 您要运行这里的例子，需要首先运行dtm服务器，运行的方式，可以选择最常见的源码运行方式：
@@ -79,8 +79,3 @@ dtm 可以组合 Redis 和数据库，形成一个全局事务，查找名字含
 有一部分的业务中的子事务，需要自定义header。dtm支持全局事务粒度的header定制，即您可以给各个全局事务指定自定义header，dtm调用您的子事务服务时，将会添加您指定的header
 
 HTTP和gRPC都支持自定义header，详情可以参考名字中带有Header的例子
-## 其他例子
-
-- 最简短的HTTP协议事务例子：[dtmcli-go-sample](https://github.com/dtm-labs/dtmcli-go-sample)
-- 最简短的gRPC协议事务例子：[dtmgrpc-go-sample](https://github.com/dtm-labs/dtmgrpc-go-sample)
-- 其他微服务协议事务例子：[dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients)
