@@ -37,7 +37,8 @@ func main() {
 		User:     "dtm",
 		Password: "passwd123dtm",
 	}
-	busi.Startup()
+	app := busi.Startup()
+	examples.AddRoutes(app)
 	time.Sleep(200 * time.Millisecond)
 	cmd := os.Args[1]
 	if cmd == "qs" {

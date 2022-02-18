@@ -3,6 +3,7 @@ package examples
 import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/gin-gonic/gin"
 )
 
 type commandInfo struct {
@@ -33,6 +34,19 @@ func Call(name string) {
 		if c.Arg == name {
 			c.Action()
 		}
+	}
+}
+
+type PostRoute struct {
+	Route   string
+	Handler func(*gin.Context) interface{}
+}
+
+var routes = []PostRoute{}
+
+func AddRoutes(app *gin.Engine) {
+	for _, r := range routes {
+		app.POST(r.Route, dtmutil.WrapHandler2(r.Handler))
 	}
 }
 
