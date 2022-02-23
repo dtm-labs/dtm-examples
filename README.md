@@ -18,7 +18,7 @@ go run main.go
 
 After running successfully, dtm will listen locally on two ports, 36789 for HTTP, and 36790 for gRPC.
 
-You can also use a variety of other methods, see [running dtm service](https://dtm.pub/)
+You can also use a variety of other methods, see [running dtm service](https://en.dtm.pub/)
 
 ## The simplest quick-start
 Let's start our first example with a minimal quick-start, which can be run with the following command
