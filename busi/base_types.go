@@ -17,7 +17,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-// StoreHost examples will connect to dtm.pub; tests will connect to localhost
+// StoreHost examples will connect to en.dtm.pub; tests will connect to localhost
 var StoreHost = "localhost"
 
 // BusiConf 1

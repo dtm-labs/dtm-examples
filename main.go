@@ -29,7 +29,7 @@ func main() {
 		hintExit("")
 	}
 	logger.InitLog("debug")
-	busi.StoreHost = "dtm.pub"
+	busi.StoreHost = "en.dtm.pub"
 	busi.BusiConf = dtmimp.DBConf{
 		Driver:   "mysql",
 		Host:     busi.StoreHost,
