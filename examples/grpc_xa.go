@@ -18,7 +18,7 @@ func init() {
 	AddCommand("grpc_xa", func() string {
 		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
 		req := &busi.BusiReq{Amount: 30}
-		err := busi.XaGrpcClient.XaGlobalTransaction(gid, func(xa *dtmgrpc.XaGrpc) error {
+		err := dtmgrpc.XaGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(xa *dtmgrpc.XaGrpc) error {
 			r := &emptypb.Empty{}
 			err := xa.CallBranch(req, busi.BusiGrpc+"/busi.Busi/TransOutXa", r)
 			if err != nil {

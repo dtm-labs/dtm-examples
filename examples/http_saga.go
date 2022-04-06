@@ -54,7 +54,7 @@ func init() {
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req).
-			EnableConcurrent().
+			SetConcurrent().
 			AddBranchOrder(2, []int{0, 1}).
 			AddBranchOrder(3, []int{0, 1})
 		logger.Debugf("concurrent saga busi trans submit")

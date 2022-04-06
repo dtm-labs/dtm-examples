@@ -37,9 +37,6 @@ var setupFuncs = map[string]setupFunc{}
 // Busi busi service url prefix
 var Busi = fmt.Sprintf("http://localhost:%d%s", BusiPort, BusiAPI)
 
-// XaClient 1
-var XaClient *dtmcli.XaClient
-
 // SleepCancelHandler 1
 type SleepCancelHandler func(c *gin.Context) interface{}
 
@@ -63,15 +60,9 @@ func BaseAppStartup() *gin.Engine {
 		}
 		c.Next()
 	})
-	var err error
-	XaClient, err = dtmcli.NewXaClient(dtmutil.DefaultHTTPServer, BusiConf, Busi+"/xa", func(path string, xa *dtmcli.XaClient) {
-		app.POST(path, dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
-			return xa.HandleCallback(c.Query("gid"), c.Query("branch_id"), c.Query("op"))
-		}))
-	})
-	logger.FatalIfError(err)
 
 	BaseAddRoute(app)
+	addJrpcRoute(app)
 	for k, v := range setupFuncs {
 		logger.Debugf("initing %s", k)
 		v(app)
@@ -143,16 +134,18 @@ func BaseAddRoute(app *gin.Engine) {
 		return bb.MongoQueryPrepared(MongoGet())
 	}))
 	app.POST(BusiAPI+"/TransInXa", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
-		return XaClient.XaLocalTransaction(c.Request.URL.Query(), func(db *sql.DB, xa *dtmcli.Xa) error {
+		return dtmcli.XaLocalTransaction(c.Request.URL.Query(), BusiConf, func(db *sql.DB, xa *dtmcli.Xa) error {
 			return SagaAdjustBalance(db, TransInUID, reqFrom(c).Amount, reqFrom(c).TransInResult)
 		})
 	}))
 	app.POST(BusiAPI+"/TransOutXa", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
-		return XaClient.XaLocalTransaction(c.Request.URL.Query(), func(db *sql.DB, xa *dtmcli.Xa) error {
+		return dtmcli.XaLocalTransaction(c.Request.URL.Query(), BusiConf, func(db *sql.DB, xa *dtmcli.Xa) error {
 			return SagaAdjustBalance(db, TransOutUID, reqFrom(c).Amount, reqFrom(c).TransOutResult)
 		})
 	}))
-
+	app.POST(BusiAPI+"/TransOutTimeout", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
+		return handleGeneralBusiness(c, MainSwitch.TransOutResult.Fetch(), reqFrom(c).TransOutResult, "TransOut")
+	}))
 	app.POST(BusiAPI+"/TransInTccNested", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
 		tcc, err := dtmcli.TccFromQuery(c.Request.URL.Query())
 		logger.FatalIfError(err)
@@ -164,7 +157,7 @@ func BaseAddRoute(app *gin.Engine) {
 		return resp
 	}))
 	app.POST(BusiAPI+"/TransOutXaGorm", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
-		return XaClient.XaLocalTransaction(c.Request.URL.Query(), func(db *sql.DB, xa *dtmcli.Xa) error {
+		return dtmcli.XaLocalTransaction(c.Request.URL.Query(), BusiConf, func(db *sql.DB, xa *dtmcli.Xa) error {
 			if reqFrom(c).TransOutResult == dtmcli.ResultFailure {
 				return dtmcli.ErrFailure
 			}
@@ -191,7 +184,7 @@ func BaseAddRoute(app *gin.Engine) {
 		}
 		return nil
 	}))
-	app.POST(BusiAPI+"/TccBSleepCancel", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
+	app.POST(BusiAPI+"/SleepCancel", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
 		return sleepCancelHandler(c)
 	}))
 	app.POST(BusiAPI+"/TransOutHeaderYes", dtmutil.WrapHandler2(func(c *gin.Context) interface{} {
