@@ -32,9 +32,12 @@ func IsExists(name string) bool {
 func Call(name string) {
 	for _, c := range Commands {
 		if c.Arg == name {
+			logger.Infof("running example: %s", name)
 			c.Action()
+			return
 		}
 	}
+	logger.FatalfIf(true, "%s not found", name)
 }
 
 type PostRoute struct {

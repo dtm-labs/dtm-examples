@@ -56,17 +56,23 @@ dtm supports multiple transaction modes. In all examples, the names of the trans
 - tcc: for global transactions with high consistency requirements
 - xa: for global transactions with low performance requirements and no rowlock contention
 
-If you are not familiar with these transaction solutions, you can refer to the related explanation in [dtm.pub](https://dtm.pub)
+If you are not familiar with these transaction solutions, you can refer to the related explanation in [en.dtm.pub](https://en.dtm.pub)
 
 ### Database
 Distributed transactions are usually about combining multiple local transactions into one overall global transaction, so a lot of real business is carried out with databases. dtm also pioneered sub-transaction barriers to help users better solve problems related to null compensation, suspensions, powers, etc.
 
 In the example with barrier, database related tricks are demonstrated. dtm provides a sample mysql for your use to save you the trouble of configuring the database.
 
-> If you want to configure your own database, see Deployment and Operations in the [dtm documentation](https://dtm.pub)
+> If you want to configure your own database, see Deployment and Operations in the [dtm documentation](https://en.dtm.pub)
 
 ### Redis
-dtm can combine Redis and a database to form a global transaction, just look for examples with redis in the name
+dtm can combine Redis to form a global transaction, just look for examples with redis in the name
+
+### Mongo
+dtm can combine Mongo to form a global transaction, just look for examples with mongo in the name
+
+### Mutiple Databases
+dtm can combine Mysql, Redis, Mongo to form a global transaction, just look for examples with `multidb` in the name
 
 ### Transaction rollback
 We have a number of examples that demonstrate rollbacks, look for examples with rollback in their name.

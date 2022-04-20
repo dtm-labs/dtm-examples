@@ -9,12 +9,12 @@ import (
 	sync "sync"
 	"time"
 
+	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/dtm-labs/dtmgrpc"
 	"github.com/dtm-labs/dtmgrpc/dtmgpb"
-	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/go-resty/resty/v2"
@@ -147,8 +147,10 @@ func MongoGet() *mongo.Client {
 	mongoOnce.Do(func() {
 		uri := fmt.Sprintf("mongodb://%s:27017/?retryWrites=false", StoreHost)
 		ctx := context.Background()
+		logger.Infof("connecting to mongo: %s", uri)
 		client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 		dtmimp.E2P(err)
+		logger.Infof("connected to mongo: %s", uri)
 		mongoc = client
 	})
 	return mongoc
@@ -167,9 +169,9 @@ func SetRedisBothAccount(amountA int, ammountB int) {
 func SetMongoBothAccount(amountA int, amountB int) {
 	mc := MongoGet()
 	col := mc.Database("dtm_busi").Collection("user_account")
-	_, err := col.InsertOne(context.Background(), bson.D{{Key: "user_id", Value: TransOutUID}, {Key: "balance", Value: amountA}})
+	_, err := col.ReplaceOne(context.Background(), bson.D{{Key: "user_id", Value: TransOutUID}}, bson.D{{Key: "user_id", Value: TransOutUID}, {Key: "balance", Value: amountA}}, options.Replace().SetUpsert(true))
 	dtmimp.E2P(err)
-	_, err = col.InsertOne(context.Background(), bson.D{{Key: "user_id", Value: TransInUID}, {Key: "balance", Value: amountB}})
+	_, err = col.ReplaceOne(context.Background(), bson.D{{Key: "user_id", Value: TransInUID}}, bson.D{{Key: "user_id", Value: TransInUID}, {Key: "balance", Value: amountB}}, options.Replace().SetUpsert(true))
 	dtmimp.E2P(err)
 
 }
