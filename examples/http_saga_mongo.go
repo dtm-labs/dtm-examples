@@ -20,11 +20,10 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("http_saga_mongo_rollback", func() string {
-		busi.SetMongoBothAccount(10, 10)
-		req := &busi.TransReq{Amount: 30}
+		busi.SetMongoBothAccount(10000, 10000)
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
-			Add(busi.Busi+"/SagaMongoTransIn", busi.Busi+"/SagaMongoTransInCom", req).
-			Add(busi.Busi+"/SagaMongoTransOut", busi.Busi+"/SagaMongoTransOutCom", req)
+			Add(busi.Busi+"/SagaMongoTransIn", busi.Busi+"/SagaMongoTransInCom", &busi.TransReq{Amount: 30}).
+			Add(busi.Busi+"/SagaMongoTransOut", busi.Busi+"/SagaMongoTransOutCom", &busi.TransReq{Amount: 30000})
 		logger.Debugf("busi trans submit")
 		err := saga.Submit()
 		logger.FatalIfError(err)
