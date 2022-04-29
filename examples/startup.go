@@ -49,7 +49,7 @@ var routes = []PostRoute{}
 
 func AddRoutes(app *gin.Engine) {
 	for _, r := range routes {
-		app.POST(r.Route, dtmutil.WrapHandler2(r.Handler))
+		app.POST(r.Route, dtmutil.WrapHandler(r.Handler))
 	}
 }
 

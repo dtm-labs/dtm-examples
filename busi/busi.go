@@ -102,6 +102,7 @@ func SagaMongoAdjustBalance(ctx context.Context, mc *mongo.Client, uid int, amou
 		return fmt.Errorf("balance not enough %w", dtmcli.ErrFailure)
 	}
 	return nil
+
 }
 
 func tccAdjustTrading(db dtmcli.DB, uid int, amount int) error {

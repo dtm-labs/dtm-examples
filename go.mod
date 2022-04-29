@@ -3,7 +3,7 @@ module github.com/dtm-labs/dtm-examples
 go 1.15
 
 require (
-	github.com/dtm-labs/dtmcli v1.13.0
+	github.com/dtm-labs/dtmcli v1.13.4
 	github.com/dtm-labs/dtmgrpc v1.13.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis/v8 v8.11.4
