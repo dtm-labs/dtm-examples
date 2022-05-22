@@ -11,12 +11,13 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/lithammer/shortuuid"
 )
 
 func init() {
 	AddCommand("http_saga", func() string {
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
 		logger.Debugf("saga busi trans submit")
@@ -27,7 +28,7 @@ func init() {
 	})
 	AddCommand("http_saga_rollback", func() string {
 		req := &busi.TransReq{Amount: 30, TransInResult: "FAILURE"}
-		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
 		logger.Debugf("saga busi trans submit")
@@ -38,7 +39,7 @@ func init() {
 	})
 	AddCommand("http_saga_wait", func() string {
 		req := &busi.TransReq{Amount: 30}
-		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
+		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
 		saga.WaitResult = true
@@ -49,7 +50,7 @@ func init() {
 	})
 	AddCommand("http_concurrent_saga", func() string {
 		req := &busi.TransReq{Amount: 30}
-		csaga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)).
+		csaga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req).

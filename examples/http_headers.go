@@ -12,11 +12,12 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/go-resty/resty/v2"
+	"github.com/lithammer/shortuuid"
 )
 
 func init() {
 	AddCommand("http_saga_customHeaders", func() string {
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		gid := shortuuid.New()
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, gid).
 			Add(busi.Busi+"/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists
@@ -29,7 +30,7 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("http_tcc_customHeaders", func() string {
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction2(dtmutil.DefaultHTTPServer, gid, func(t *dtmcli.Tcc) {
 			t.BranchHeaders = map[string]string{
 				"test_header": "test",
@@ -44,7 +45,7 @@ func init() {
 	})
 	AddCommand("http_saga_passthroughHeaders", func() string {
 		dtmcli.SetPassthroughHeaders([]string{"test_header"}) // set passthrough headers. dtm will
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer) + "HeadersYes"
+		gid := shortuuid.New() + "HeadersYes"
 		dtmcli.GetRestyClient().OnBeforeRequest(busi.SetHTTPHeaderForHeadersYes) // will set header in this middleware
 		req := &busi.TransReq{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, gid).

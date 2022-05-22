@@ -12,12 +12,13 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/go-resty/resty/v2"
+	"github.com/lithammer/shortuuid"
 )
 
 func init() {
 	AddCommand("http_tcc_barrier", func() string {
 		logger.Debugf("tcc transaction begin")
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
 			resp, err := tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TccBTransOutTry",
 				busi.Busi+"/TccBTransOutConfirm", busi.Busi+"/TccBTransOutCancel")

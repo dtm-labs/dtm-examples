@@ -12,11 +12,12 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/go-resty/resty/v2"
+	"github.com/lithammer/shortuuid"
 )
 
 func init() {
 	AddCommand("http_tcc_nested", func() string {
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
 			resp, err := tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
 			if err != nil {
@@ -29,7 +30,7 @@ func init() {
 	})
 	AddCommand("http_tcc", func() string {
 		logger.Debugf("tcc simple transaction begin")
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
 			resp, err := tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
 			if err != nil {
@@ -42,7 +43,7 @@ func init() {
 	})
 	AddCommand("http_tcc_rollback", func() string {
 		logger.Debugf("tcc simple transaction begin")
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
 			req := &busi.TransReq{Amount: 30, TransInResult: "FAILURE"}
 			resp, err := tcc.CallBranch(req, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")

@@ -12,11 +12,12 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/go-resty/resty/v2"
+	"github.com/lithammer/shortuuid"
 )
 
 func init() {
 	AddCommand("http_xa", func() string {
-		gid := dtmcli.MustGenGid(dtmutil.DefaultHTTPServer)
+		gid := shortuuid.New()
 		err := dtmcli.XaGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(xa *dtmcli.Xa) (*resty.Response, error) {
 			resp, err := xa.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOutXa")
 			if err != nil {
