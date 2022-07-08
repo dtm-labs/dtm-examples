@@ -6,12 +6,13 @@ import (
 	"github.com/dtm-labs/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmcli/logger"
 	dtmgrpc "github.com/dtm-labs/dtmgrpc"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("grpc_saga_hybrid", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req)
 		saga.Steps = append(saga.Steps, map[string]string{"action": busi.Busi + "/TransIn", "compensate": busi.Busi + "/TransInRevert"})

@@ -11,13 +11,14 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli/logger"
 	dtmgrpc "github.com/dtm-labs/dtmgrpc"
+	"github.com/lithammer/shortuuid/v3"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 func init() {
 	AddCommand("grpc_tcc", func() string {
 		logger.Debugf("tcc simple transaction begin")
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
 			data := &busi.BusiReq{Amount: 30}
 			r := &emptypb.Empty{}
@@ -33,7 +34,7 @@ func init() {
 	})
 	AddCommand("grpc_tcc_rollback", func() string {
 		logger.Debugf("tcc simple transaction begin")
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
 			data := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
 			r := &emptypb.Empty{}

@@ -11,12 +11,13 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli/logger"
 	dtmgrpc "github.com/dtm-labs/dtmgrpc"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("grpc_msg", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		msg := dtmgrpc.NewMsgGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", req).
 			Add(busi.BusiGrpc+"/busi.Busi/TransIn", req)

@@ -11,12 +11,13 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli/logger"
 	dtmgrpc "github.com/dtm-labs/dtmgrpc"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("grpc_saga", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
 			Add(busi.BusiGrpc+"/busi.Busi/TransIn", busi.BusiGrpc+"/busi.Busi/TransInRevert", req)
@@ -26,7 +27,7 @@ func init() {
 	})
 	AddCommand("grpc_saga_rollback", func() string {
 		req := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
 			Add(busi.BusiGrpc+"/busi.Busi/TransIn", busi.BusiGrpc+"/busi.Busi/TransInRevert", req)
@@ -36,7 +37,7 @@ func init() {
 	})
 	AddCommand("grpc_saga_wait", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
 			Add(busi.BusiGrpc+"/busi.Busi/TransIn", busi.BusiGrpc+"/busi.Busi/TransInRevert", req)

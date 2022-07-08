@@ -10,12 +10,13 @@ import (
 	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("http_msg_barrier_redis", func() string {
 		busi.SetRedisBothAccount(10000, 10000)
-		gid := dtmcli.MustGenGid(DtmServer)
+		gid := shortuuid.New()
 		req := busi.GenReqHTTP(30, false, false)
 		msg := dtmcli.NewMsg(DtmServer, gid).
 			Add(busi.Busi+"/SagaRedisTransIn", req)
@@ -27,7 +28,7 @@ func init() {
 	})
 	AddCommand("http_msg_barrier_redis_db", func() string {
 		busi.SetRedisBothAccount(10000, 10000)
-		gid := dtmcli.MustGenGid(DtmServer)
+		gid := shortuuid.New()
 		req := busi.GenReqHTTP(30, false, false)
 		msg := dtmcli.NewMsg(DtmServer, gid).
 			Add(busi.Busi+"/SagaBTransIn", req)

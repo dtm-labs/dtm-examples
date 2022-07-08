@@ -12,13 +12,14 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
 	dtmgrpc "github.com/dtm-labs/dtmgrpc"
+	"github.com/lithammer/shortuuid/v3"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 func init() {
 	AddCommand("grpc_saga_customHeaders", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists
 
@@ -31,7 +32,7 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("grpc_tcc_customHeaders", func() string {
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		err := dtmgrpc.TccGlobalTransaction2(dtmutil.DefaultGrpcServer, gid, func(tg *dtmgrpc.TccGrpc) {
 			tg.BranchHeaders = map[string]string{
 				"test_header": "test",
@@ -50,7 +51,7 @@ func init() {
 		dtmgrpc.AddUnaryInterceptor(busi.SetGrpcHeaderForHeadersYes) // will set header in this middleware
 
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer) + "HeadersYes" // gid with this post fix will be handled in interceptor
+		gid := shortuuid.New() + "HeadersYes" // gid with this post fix will be handled in interceptor
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists
 

@@ -11,12 +11,13 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/dtm-labs/dtmgrpc"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("grpc_saga_barrier", func() string {
 		req := &busi.BusiReq{Amount: 30}
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOutBSaga", busi.BusiGrpc+"/busi.Busi/TransOutRevertBSaga", req).
 			Add(busi.BusiGrpc+"/busi.Busi/TransInBSaga", busi.BusiGrpc+"/busi.Busi/TransInRevertBSaga", req)

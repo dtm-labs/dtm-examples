@@ -31,7 +31,7 @@ func init() {
 		return msg.Gid
 	})
 	AddCommand("http_msg_doAndCommit", func() string {
-		gid := dtmcli.MustGenGid(DtmServer)
+		gid := shortuuid.New()
 		req := busi.GenReqHTTP(30, false, false)
 		msg := dtmcli.NewMsg(DtmServer, gid).
 			Add(busi.Busi+"/SagaBTransIn", req)

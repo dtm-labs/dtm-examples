@@ -11,12 +11,13 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/dtm-labs/dtmgrpc"
+	"github.com/lithammer/shortuuid/v3"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 func init() {
 	AddCommand("grpc_xa", func() string {
-		gid := dtmgrpc.MustGenGid(dtmutil.DefaultGrpcServer)
+		gid := shortuuid.New()
 		req := &busi.BusiReq{Amount: 30}
 		err := dtmgrpc.XaGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(xa *dtmgrpc.XaGrpc) error {
 			r := &emptypb.Empty{}
