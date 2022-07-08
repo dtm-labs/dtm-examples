@@ -8,9 +8,13 @@ import (
 	"time"
 
 	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtm-examples/examples"
 	"github.com/dtm-labs/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/dtm-labs/dtmgrpc/workflow"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func hintExit(msg string) {
@@ -37,13 +41,27 @@ func main() {
 		User:     "dtm",
 		Password: "passwd123dtm",
 	}
-	app := busi.Startup()
+	app, gsvr := busi.Startup()
 	examples.AddRoutes(app)
 	time.Sleep(200 * time.Millisecond)
 	cmd := os.Args[1]
 	if cmd == "qs" {
+		go busi.RunHTTP(app)
+		time.Sleep(200 * time.Millisecond)
 		busi.QsMain()
 	} else if examples.IsExists(cmd) {
+		if strings.Contains(cmd, "grpc") { // init workflow base on command
+			nossl := grpc.WithTransportCredentials(insecure.NewCredentials())
+			workflow.InitGrpc(dtmutil.DefaultGrpcServer, busi.BusiGrpc, gsvr)
+			conn1, err := grpc.Dial(busi.BusiGrpc, grpc.WithUnaryInterceptor(workflow.Interceptor), nossl)
+			logger.FatalIfError(err)
+			busi.BusiCli = busi.NewBusiClient(conn1)
+		} else {
+			workflow.InitHTTP(dtmutil.DefaultHTTPServer, busi.Busi+"/workflow/resume")
+		}
+		go busi.RunGrpc(gsvr)
+		go busi.RunHTTP(app)
+		time.Sleep(200 * time.Millisecond)
 		examples.Call(cmd)
 	} else {
 		hintExit("unknown command: " + cmd)
