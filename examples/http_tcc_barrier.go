@@ -12,7 +12,7 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/go-resty/resty/v2"
-	"github.com/lithammer/shortuuid"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
@@ -20,12 +20,12 @@ func init() {
 		logger.Debugf("tcc transaction begin")
 		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
-			resp, err := tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TccBTransOutTry",
+			resp, err := tcc.CallBranch(&busi.ReqHTTP{Amount: 30}, busi.Busi+"/TccBTransOutTry",
 				busi.Busi+"/TccBTransOutConfirm", busi.Busi+"/TccBTransOutCancel")
 			if err != nil {
 				return resp, err
 			}
-			return tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TccBTransInTry", busi.Busi+"/TccBTransInConfirm", busi.Busi+"/TccBTransInCancel")
+			return tcc.CallBranch(&busi.ReqHTTP{Amount: 30}, busi.Busi+"/TccBTransInTry", busi.Busi+"/TccBTransInConfirm", busi.Busi+"/TccBTransInCancel")
 		})
 		logger.FatalIfError(err)
 		return gid

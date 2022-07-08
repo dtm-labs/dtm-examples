@@ -15,7 +15,7 @@ func init() {
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req)
 		saga.Steps = append(saga.Steps, map[string]string{"action": busi.Busi + "/TransIn", "compensate": busi.Busi + "/TransInRevert"})
-		saga.BinPayloads = append(saga.BinPayloads, dtmimp.MustMarshal(&busi.TransReq{Amount: 30}))
+		saga.BinPayloads = append(saga.BinPayloads, dtmimp.MustMarshal(&busi.ReqGrpc{Amount: 30}))
 
 		err := saga.Submit()
 		logger.FatalIfError(err)

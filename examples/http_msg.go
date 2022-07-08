@@ -13,13 +13,13 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
-	"github.com/lithammer/shortuuid"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("http_msg", func() string {
 		logger.Debugf("a busi transaction begin")
-		req := &busi.TransReq{Amount: 30}
+		req := &busi.ReqHTTP{Amount: 30}
 		msg := dtmcli.NewMsg(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", req).
 			Add(busi.Busi+"/TransIn", req)
@@ -32,7 +32,7 @@ func init() {
 	})
 	AddCommand("http_msg_doAndCommit", func() string {
 		gid := dtmcli.MustGenGid(DtmServer)
-		req := busi.GenTransReq(30, false, false)
+		req := busi.GenReqHTTP(30, false, false)
 		msg := dtmcli.NewMsg(DtmServer, gid).
 			Add(busi.Busi+"/SagaBTransIn", req)
 		err := msg.DoAndSubmitDB(busi.Busi+"/QueryPreparedB", dtmutil.DbGet(busi.BusiConf).ToSQLDB(), func(tx *sql.Tx) error {

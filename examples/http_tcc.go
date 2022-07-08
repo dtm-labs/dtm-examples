@@ -12,18 +12,18 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/go-resty/resty/v2"
-	"github.com/lithammer/shortuuid"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("http_tcc_nested", func() string {
 		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
-			resp, err := tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
+			resp, err := tcc.CallBranch(&busi.ReqHTTP{Amount: 30}, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
 			if err != nil {
 				return resp, err
 			}
-			return tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransInTccNested", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
+			return tcc.CallBranch(&busi.ReqHTTP{Amount: 30}, busi.Busi+"/TransInTccNested", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
 		})
 		logger.FatalIfError(err)
 		return gid
@@ -32,11 +32,11 @@ func init() {
 		logger.Debugf("tcc simple transaction begin")
 		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
-			resp, err := tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
+			resp, err := tcc.CallBranch(&busi.ReqHTTP{Amount: 30}, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
 			if err != nil {
 				return resp, err
 			}
-			return tcc.CallBranch(&busi.TransReq{Amount: 30}, busi.Busi+"/TransIn", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
+			return tcc.CallBranch(&busi.ReqHTTP{Amount: 30}, busi.Busi+"/TransIn", busi.Busi+"/TransInConfirm", busi.Busi+"/TransInRevert")
 		})
 		logger.FatalIfError(err)
 		return gid
@@ -45,7 +45,7 @@ func init() {
 		logger.Debugf("tcc simple transaction begin")
 		gid := shortuuid.New()
 		err := dtmcli.TccGlobalTransaction(dtmutil.DefaultHTTPServer, gid, func(tcc *dtmcli.Tcc) (*resty.Response, error) {
-			req := &busi.TransReq{Amount: 30, TransInResult: "FAILURE"}
+			req := &busi.ReqHTTP{Amount: 30, TransInResult: "FAILURE"}
 			resp, err := tcc.CallBranch(req, busi.Busi+"/TransOut", busi.Busi+"/TransOutConfirm", busi.Busi+"/TransOutRevert")
 			if err != nil {
 				return resp, err

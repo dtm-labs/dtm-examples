@@ -10,10 +10,12 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"io/ioutil"
 
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/dtm-labs/dtmgrpc/workflow"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -77,6 +79,11 @@ func BaseAppStartup() *gin.Engine {
 
 // BaseAddRoute add base route handler
 func BaseAddRoute(app *gin.Engine) {
+	app.POST(BusiAPI+"/workflow/resume", dtmutil.WrapHandler(func(ctx *gin.Context) interface{} {
+		data, err := ioutil.ReadAll(ctx.Request.Body)
+		logger.FatalIfError(err)
+		return workflow.ExecuteByQS(ctx.Request.URL.Query(), data)
+	}))
 	app.POST(BusiAPI+"/TransIn", dtmutil.WrapHandler(func(c *gin.Context) interface{} {
 		return handleGeneralBusiness(c, MainSwitch.TransInResult.Fetch(), reqFrom(c).TransInResult, "transIn")
 	}))
@@ -141,7 +148,7 @@ func BaseAddRoute(app *gin.Engine) {
 	}))
 	app.POST(BusiAPI+"/TransOutXa", dtmutil.WrapHandler(func(c *gin.Context) interface{} {
 		return dtmcli.XaLocalTransaction(c.Request.URL.Query(), BusiConf, func(db *sql.DB, xa *dtmcli.Xa) error {
-			return SagaAdjustBalance(db, TransOutUID, reqFrom(c).Amount, reqFrom(c).TransOutResult)
+			return SagaAdjustBalance(db, TransOutUID, -reqFrom(c).Amount, reqFrom(c).TransOutResult)
 		})
 	}))
 	app.POST(BusiAPI+"/TransOutTimeout", dtmutil.WrapHandler(func(c *gin.Context) interface{} {
@@ -151,7 +158,7 @@ func BaseAddRoute(app *gin.Engine) {
 		tcc, err := dtmcli.TccFromQuery(c.Request.URL.Query())
 		logger.FatalIfError(err)
 		logger.Debugf("TransInTccNested ")
-		resp, err := tcc.CallBranch(&TransReq{Amount: reqFrom(c).Amount}, Busi+"/TransIn", Busi+"/TransInConfirm", Busi+"/TransInRevert")
+		resp, err := tcc.CallBranch(&ReqHTTP{Amount: reqFrom(c).Amount}, Busi+"/TransIn", Busi+"/TransInConfirm", Busi+"/TransInRevert")
 		if err != nil {
 			return err
 		}

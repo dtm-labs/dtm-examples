@@ -11,12 +11,12 @@ import (
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmcli/logger"
-	"github.com/lithammer/shortuuid"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 func init() {
 	AddCommand("http_saga", func() string {
-		req := &busi.TransReq{Amount: 30}
+		req := &busi.ReqHTTP{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
@@ -27,7 +27,7 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("http_saga_rollback", func() string {
-		req := &busi.TransReq{Amount: 30, TransInResult: "FAILURE"}
+		req := &busi.ReqHTTP{Amount: 30, TransInResult: "FAILURE"}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
@@ -38,7 +38,7 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("http_saga_wait", func() string {
-		req := &busi.TransReq{Amount: 30}
+		req := &busi.ReqHTTP{Amount: 30}
 		saga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransIn", busi.Busi+"/TransInRevert", req)
@@ -49,7 +49,7 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("http_concurrent_saga", func() string {
-		req := &busi.TransReq{Amount: 30}
+		req := &busi.ReqHTTP{Amount: 30}
 		csaga := dtmcli.NewSaga(dtmutil.DefaultHTTPServer, shortuuid.New()).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).
 			Add(busi.Busi+"/TransOut", busi.Busi+"/TransOutRevert", req).

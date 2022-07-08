@@ -42,6 +42,8 @@ github.com/dtm-labs/dtmcli v1.13.5 h1:LjAPy+K/t+tEC8NMPLqD4BoYWWL6AYODKY7htkFp2k
 github.com/dtm-labs/dtmcli v1.13.5/go.mod h1:otEdxUwM5FIKlCLmg5hL5+Z539DmCK2YJ0G4WNsP6Tw=
 github.com/dtm-labs/dtmcli v1.14.2 h1:MNL/2zpUDcXmriqyqmUfiplVrYdw7CdEjIsEee9AC6Q=
 github.com/dtm-labs/dtmcli v1.14.2/go.mod h1:otEdxUwM5FIKlCLmg5hL5+Z539DmCK2YJ0G4WNsP6Tw=
+github.com/dtm-labs/dtmcli v1.15.0 h1:kqiV47I9Am/0QuzX11cGTPp/Z2AcOaRDXU7E7SZWYNk=
+github.com/dtm-labs/dtmcli v1.15.0/go.mod h1:otEdxUwM5FIKlCLmg5hL5+Z539DmCK2YJ0G4WNsP6Tw=
 github.com/dtm-labs/dtmdriver v0.0.1 h1:dHUZQ6g2ZN6eRUqds9kKq/3K7u9bcUGatUlbthD92fA=
 github.com/dtm-labs/dtmdriver v0.0.1/go.mod h1:fLiEeD2BPwM9Yq96TfcP9KpbTwFsn5nTxa/PP0jmFuk=
 github.com/dtm-labs/dtmdriver v0.0.3 h1:9iAtvXKR3lJXQ7dvS87e4xdtmqkzN+ofek+CF9AvUSY=
@@ -54,6 +56,8 @@ github.com/dtm-labs/dtmgrpc v1.13.0 h1:xoE/3KCyyiEjfqZtUrXSOn/m4mZZeiaktrrzRMZe1
 github.com/dtm-labs/dtmgrpc v1.13.0/go.mod h1:k5deAcB5k3OlRCqYq16apVWO58KfwA4e3XNElArQeAU=
 github.com/dtm-labs/dtmgrpc v1.14.2 h1:83sUS7eiBiF5R+0MfNTzr9G6z+wo6L9Kipx23rwR5Gk=
 github.com/dtm-labs/dtmgrpc v1.14.2/go.mod h1:9k7oNLxfchPJs8LlU2iuVeQ6bzfz8zRLoyczJI8zYwY=
+github.com/dtm-labs/dtmgrpc v1.15.0 h1:ZLSbCa/83J4LUR2A/h1h68D6EPuFfDkiUTZ5btKlJvg=
+github.com/dtm-labs/dtmgrpc v1.15.0/go.mod h1:fc7Mg6UGrNsHVsPrFNZhAH12/ddNHUP5E84EQY1Fz7w=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
@@ -121,6 +125,7 @@ github.com/google/go-cmp v0.5.6 h1:BKbKCqvP6I+rmFHt06ZmyQtvB8xAkWdhFyr0ZUNZcxQ=
 github.com/google/go-cmp v0.5.6/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
 github.com/google/renameio v0.1.0/go.mod h1:KWCgfxg9yswjAJkECMjeO8J8rahYeXnNhOm40UhjYkI=
+github.com/google/uuid v1.1.2 h1:EVhdT+1Kseyi1/pUmXKaFxYsDNy9RQYkMWRH68J/W7Y=
 github.com/google/uuid v1.1.2/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/google/uuid v1.2.0 h1:qJYtXnJRWmpe7m/3XlyhrsLrEURqHRM2kxzoxXqyUDs=
 github.com/google/uuid v1.2.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
