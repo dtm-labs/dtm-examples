@@ -20,7 +20,7 @@ func init() {
 		logger.Debugf("tcc simple transaction begin")
 		gid := shortuuid.New()
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
-			data := &busi.BusiReq{Amount: 30}
+			data := &busi.ReqGrpc{Amount: 30}
 			r := &emptypb.Empty{}
 			err := tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransOutTcc", busi.BusiGrpc+"/busi.Busi/TransOutConfirm", busi.BusiGrpc+"/busi.Busi/TransOutRevert", r)
 			if err != nil {
@@ -36,7 +36,7 @@ func init() {
 		logger.Debugf("tcc simple transaction begin")
 		gid := shortuuid.New()
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
-			data := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
+			data := &busi.ReqGrpc{Amount: 30, TransInResult: "FAILURE"}
 			r := &emptypb.Empty{}
 			err := tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransOutTcc", busi.BusiGrpc+"/busi.Busi/TransOutConfirm", busi.BusiGrpc+"/busi.Busi/TransOutRevert", r)
 			if err != nil {

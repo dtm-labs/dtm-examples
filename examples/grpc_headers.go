@@ -18,7 +18,7 @@ import (
 
 func init() {
 	AddCommand("grpc_saga_customHeaders", func() string {
-		req := &busi.BusiReq{Amount: 30}
+		req := &busi.ReqGrpc{Amount: 30}
 		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists
@@ -39,7 +39,7 @@ func init() {
 			}
 			tg.WaitResult = true
 		}, func(tcc *dtmgrpc.TccGrpc) error {
-			data := &busi.BusiReq{Amount: 30}
+			data := &busi.ReqGrpc{Amount: 30}
 			r := &emptypb.Empty{}
 			return tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransOutHeaderYes", "", "", r)
 		})
@@ -50,7 +50,7 @@ func init() {
 		dtmcli.SetPassthroughHeaders([]string{"test_header"})        // set passthrough headers. dtm will
 		dtmgrpc.AddUnaryInterceptor(busi.SetGrpcHeaderForHeadersYes) // will set header in this middleware
 
-		req := &busi.BusiReq{Amount: 30}
+		req := &busi.ReqGrpc{Amount: 30}
 		gid := shortuuid.New() + "HeadersYes" // gid with this post fix will be handled in interceptor
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists

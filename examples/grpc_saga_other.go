@@ -11,7 +11,7 @@ import (
 
 func init() {
 	AddCommand("grpc_saga_hybrid", func() string {
-		req := &busi.BusiReq{Amount: 30}
+		req := &busi.ReqGrpc{Amount: 30}
 		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req)

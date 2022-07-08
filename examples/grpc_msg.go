@@ -16,7 +16,7 @@ import (
 
 func init() {
 	AddCommand("grpc_msg", func() string {
-		req := &busi.BusiReq{Amount: 30}
+		req := &busi.ReqGrpc{Amount: 30}
 		gid := shortuuid.New()
 		msg := dtmgrpc.NewMsgGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", req).

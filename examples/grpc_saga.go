@@ -16,7 +16,7 @@ import (
 
 func init() {
 	AddCommand("grpc_saga", func() string {
-		req := &busi.BusiReq{Amount: 30}
+		req := &busi.ReqGrpc{Amount: 30}
 		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
@@ -26,7 +26,7 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("grpc_saga_rollback", func() string {
-		req := &busi.BusiReq{Amount: 30, TransInResult: "FAILURE"}
+		req := &busi.ReqGrpc{Amount: 30, TransInResult: "FAILURE"}
 		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).
@@ -36,7 +36,7 @@ func init() {
 		return saga.Gid
 	})
 	AddCommand("grpc_saga_wait", func() string {
-		req := &busi.BusiReq{Amount: 30}
+		req := &busi.ReqGrpc{Amount: 30}
 		gid := shortuuid.New()
 		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
 			Add(busi.BusiGrpc+"/busi.Busi/TransOut", busi.BusiGrpc+"/busi.Busi/TransOutRevert", req).

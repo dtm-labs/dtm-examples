@@ -10,7 +10,7 @@ require (
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/lib/pq v1.10.3
-	github.com/lithammer/shortuuid/v3 v3.0.7 // indirect
+	github.com/lithammer/shortuuid/v3 v3.0.7
 	go.mongodb.org/mongo-driver v1.8.3
 	google.golang.org/grpc v1.43.0
 	google.golang.org/protobuf v1.27.1

@@ -18,7 +18,7 @@ import (
 func init() {
 	AddCommand("grpc_xa", func() string {
 		gid := shortuuid.New()
-		req := &busi.BusiReq{Amount: 30}
+		req := &busi.ReqGrpc{Amount: 30}
 		err := dtmgrpc.XaGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(xa *dtmgrpc.XaGrpc) error {
 			r := &emptypb.Empty{}
 			err := xa.CallBranch(req, busi.BusiGrpc+"/busi.Busi/TransOutXa", r)
