@@ -29,7 +29,7 @@ func init() {
 		req := &busi.ReqHTTP{Amount: 30}
 		gid := shortuuid.New()
 		err = workflow.Execute(wfName, gid, dtmimp.MustMarshal(req))
-		logger.FatalIfError(err)
+		logger.Infof("result is: %v", err)
 		return gid
 	})
 	AddCommand("http_workflow_saga", func() string {

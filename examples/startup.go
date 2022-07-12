@@ -2,6 +2,7 @@ package examples
 
 import (
 	"github.com/dtm-labs/client/dtmcli/logger"
+	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
 )
@@ -54,3 +55,7 @@ func AddRoutes(app *gin.Engine) {
 }
 
 var DtmServer = dtmutil.DefaultHTTPServer
+
+func dbGet() *dtmutil.DB {
+	return dtmutil.DbGet(busi.BusiConf)
+}
