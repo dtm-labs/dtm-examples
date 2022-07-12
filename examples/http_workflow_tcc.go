@@ -10,34 +10,15 @@ import (
 )
 
 func init() {
-	AddCommand("http_workflow_simple", func() string {
-		wfName := "wf_simple"
-		err := workflow.Register(wfName, func(wf *workflow.Workflow, data []byte) error {
-			req := MustUnmarshalReqHTTP(data)
-			_, err := wf.NewBranch().NewRequest().SetBody(req).Post(busi.Busi + "/TransOut")
-			if err != nil {
-				return err
-			}
-			_, err = wf.NewBranch().NewRequest().SetBody(req).Post(busi.Busi + "/TransIn")
-			if err != nil {
-				return err
-			}
-			return nil
-		})
-		logger.FatalIfError(err)
-
-		req := &busi.ReqHTTP{Amount: 30}
-		gid := shortuuid.New()
-		err = workflow.Execute(wfName, gid, dtmimp.MustMarshal(req))
-		logger.FatalIfError(err)
-		return gid
-	})
-	AddCommand("http_workflow_saga", func() string {
-		wfName := "wf_saga"
+	AddCommand("http_workflow_tcc", func() string {
+		wfName := "wf_tcc"
 		err := workflow.Register(wfName, func(wf *workflow.Workflow, data []byte) error {
 			req := MustUnmarshalReqHTTP(data)
 			_, err := wf.NewBranch().OnRollback(func(bb *dtmcli.BranchBarrier) error {
 				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransOutRevert")
+				return err
+			}).OnCommit(func(bb *dtmcli.BranchBarrier) error {
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransOutConfirm")
 				return err
 			}).NewRequest().SetBody(req).Post(busi.Busi + "/TransOut")
 			if err != nil {
@@ -45,6 +26,9 @@ func init() {
 			}
 			_, err = wf.NewBranch().OnRollback(func(bb *dtmcli.BranchBarrier) error {
 				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransInRevert")
+				return err
+			}).OnCommit(func(bb *dtmcli.BranchBarrier) error {
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransInConfirm")
 				return err
 			}).NewRequest().SetBody(req).Post(busi.Busi + "/TransIn")
 			if err != nil {
@@ -61,12 +45,15 @@ func init() {
 		return gid
 	})
 
-	AddCommand("http_workflow_saga_rollback", func() string {
-		wfName := "wf_saga_rollback"
+	AddCommand("http_workflow_tcc_rollback", func() string {
+		wfName := "wf_tcc_rollback"
 		err := workflow.Register(wfName, func(wf *workflow.Workflow, data []byte) error {
 			req := MustUnmarshalReqHTTP(data)
 			_, err := wf.NewBranch().OnRollback(func(bb *dtmcli.BranchBarrier) error {
 				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransOutRevert")
+				return err
+			}).OnCommit(func(bb *dtmcli.BranchBarrier) error {
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransOutConfirm")
 				return err
 			}).NewRequest().SetBody(req).Post(busi.Busi + "/TransOut")
 			if err != nil {
@@ -74,6 +61,9 @@ func init() {
 			}
 			_, err = wf.NewBranch().OnRollback(func(bb *dtmcli.BranchBarrier) error {
 				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransInRevert")
+				return err
+			}).OnCommit(func(bb *dtmcli.BranchBarrier) error {
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TransInConfirm")
 				return err
 			}).NewRequest().SetBody(req).Post(busi.Busi + "/TransIn")
 			if err != nil {
@@ -90,21 +80,27 @@ func init() {
 		return gid
 	})
 
-	AddCommand("http_workflow_saga_barrier", func() string {
-		wfName := "wf_saga_barrier"
+	AddCommand("http_workflow_tcc_barrier", func() string {
+		wfName := "wf_tcc_barrier"
 		err := workflow.Register(wfName, func(wf *workflow.Workflow, data []byte) error {
 			req := MustUnmarshalReqHTTP(data)
 			_, err := wf.NewBranch().OnRollback(func(bb *dtmcli.BranchBarrier) error {
-				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/SagaBTransOutCom")
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TccBTransOutCancel")
 				return err
-			}).NewRequest().SetBody(req).Post(busi.Busi + "/SagaBTransOut")
+			}).OnCommit(func(bb *dtmcli.BranchBarrier) error {
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TccBTransOutConfirm")
+				return err
+			}).NewRequest().SetBody(req).Post(busi.Busi + "/TccBTransOutTry")
 			if err != nil {
 				return err
 			}
 			_, err = wf.NewBranch().OnRollback(func(bb *dtmcli.BranchBarrier) error {
-				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/SagaBTransInCom")
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TccBTransInCancel")
 				return err
-			}).NewRequest().SetBody(req).Post(busi.Busi + "/SagaBTransIn")
+			}).OnCommit(func(bb *dtmcli.BranchBarrier) error {
+				_, err := wf.NewRequest().SetBody(req).Post(busi.Busi + "/TccBTransInConfirm")
+				return err
+			}).NewRequest().SetBody(req).Post(busi.Busi + "/TccBTransInTry")
 			if err != nil {
 				return err
 			}
