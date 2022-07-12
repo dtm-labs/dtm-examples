@@ -7,10 +7,10 @@
 package examples
 
 import (
+	"github.com/dtm-labs/client/dtmcli/logger"
+	"github.com/dtm-labs/client/dtmgrpc"
 	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
-	"github.com/dtm-labs/dtmcli/logger"
-	"github.com/dtm-labs/dtmgrpc"
 	"github.com/lithammer/shortuuid/v3"
 )
 

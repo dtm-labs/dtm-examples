@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dtm-labs/dtmcli"
-	"github.com/dtm-labs/dtmcli/dtmimp"
-	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/dtm-labs/client/dtmcli"
+	"github.com/dtm-labs/client/dtmcli/dtmimp"
+	"github.com/dtm-labs/client/dtmcli/logger"
 	_ "github.com/go-sql-driver/mysql" // register mysql driver
 	_ "github.com/lib/pq"              // register postgres driver
 	"gorm.io/driver/mysql"

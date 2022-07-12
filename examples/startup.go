@@ -1,8 +1,8 @@
 package examples
 
 import (
+	"github.com/dtm-labs/client/dtmcli/logger"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
-	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/gin-gonic/gin"
 )
 

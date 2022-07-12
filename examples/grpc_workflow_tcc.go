@@ -1,11 +1,11 @@
 package examples
 
 import (
+	"github.com/dtm-labs/client/dtmcli"
+	"github.com/dtm-labs/client/dtmcli/logger"
+	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
+	"github.com/dtm-labs/client/workflow"
 	"github.com/dtm-labs/dtm-examples/busi"
-	"github.com/dtm-labs/dtmcli"
-	"github.com/dtm-labs/dtmcli/logger"
-	"github.com/dtm-labs/dtmgrpc/dtmgimp"
-	"github.com/dtm-labs/dtmgrpc/workflow"
 	"github.com/lithammer/shortuuid/v3"
 )
 

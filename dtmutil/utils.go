@@ -20,9 +20,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
 
-	"github.com/dtm-labs/dtmcli"
-	"github.com/dtm-labs/dtmcli/dtmimp"
-	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/dtm-labs/client/dtmcli"
+	"github.com/dtm-labs/client/dtmcli/dtmimp"
+	"github.com/dtm-labs/client/dtmcli/logger"
 )
 
 // GetGinApp init and return gin

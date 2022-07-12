@@ -10,8 +10,8 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/dtm-labs/dtmcli"
-	"github.com/dtm-labs/dtmgrpc"
+	"github.com/dtm-labs/client/dtmcli"
+	"github.com/dtm-labs/client/dtmgrpc"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"

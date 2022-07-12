@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dtm-labs/client/dtmcli/dtmimp"
+	"github.com/dtm-labs/client/dtmcli/logger"
+	"github.com/dtm-labs/client/workflow"
 	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/dtm-labs/dtm-examples/examples"
-	"github.com/dtm-labs/dtmcli/dtmimp"
-	"github.com/dtm-labs/dtmcli/logger"
-	"github.com/dtm-labs/dtmgrpc/workflow"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

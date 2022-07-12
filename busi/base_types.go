@@ -10,9 +10,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dtm-labs/dtmcli"
-	"github.com/dtm-labs/dtmcli/dtmimp"
-	"github.com/dtm-labs/dtmcli/logger"
+	"github.com/dtm-labs/client/dtmcli"
+	"github.com/dtm-labs/client/dtmcli/dtmimp"
+	"github.com/dtm-labs/client/dtmcli/logger"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 )

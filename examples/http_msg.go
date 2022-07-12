@@ -9,10 +9,10 @@ package examples
 import (
 	"database/sql"
 
+	"github.com/dtm-labs/client/dtmcli"
+	"github.com/dtm-labs/client/dtmcli/logger"
 	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
-	"github.com/dtm-labs/dtmcli"
-	"github.com/dtm-labs/dtmcli/logger"
 	"github.com/lithammer/shortuuid/v3"
 )
 

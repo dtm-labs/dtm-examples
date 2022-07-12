@@ -2,8 +2,8 @@ English | [简体中文](https://github.com/dtm-labs/dtm-examples/blob/main/doc/
 
 # DTM Examples
 dtm has many examples to help you get started with distributed transactions quickly
-- [dtmcli-go-sample](https://github.com/dtm-labs/dtmcli-go-sample): a minimal example of using dtm HTTP client
-- [dtmgrpc-go-sample](https://github.com/dtm-labs/dtmcli-go-sample): a minimal dtm gRPC client example
+- [dtmcli-go-sample](https://github.com/dtm-labs/client/dtmcli-go-sample): a minimal example of using dtm HTTP client
+- [dtmgrpc-go-sample](https://github.com/dtm-labs/client/dtmcli-go-sample): a minimal dtm gRPC client example
 - [dtm-examples](https://github.com/dtm-labs/dtm-examples): a project contains a lot of examples, mainly demonstrating various uses of the dtm SDK.
 - [dtm-cases](https://github.com/dtm-labs/dtm-cases): a project contains several projects, mainly demonstrating the complete application of dtm in some fields, such as order system, flash-sales system.
 - [dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients): contains dtm support for microservices framework, e.g. go-zero example

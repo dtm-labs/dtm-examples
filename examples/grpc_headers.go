@@ -7,11 +7,11 @@
 package examples
 
 import (
+	"github.com/dtm-labs/client/dtmcli"
+	"github.com/dtm-labs/client/dtmcli/logger"
+	dtmgrpc "github.com/dtm-labs/client/dtmgrpc"
 	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
-	"github.com/dtm-labs/dtmcli"
-	"github.com/dtm-labs/dtmcli/logger"
-	dtmgrpc "github.com/dtm-labs/dtmgrpc"
 	"github.com/lithammer/shortuuid/v3"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
