@@ -41,6 +41,7 @@ func main() {
 		User:     "dtm",
 		Password: "passwd123dtm",
 	}
+	busi.ResetXaData()
 	app, gsvr := busi.Startup()
 	examples.AddRoutes(app)
 	time.Sleep(200 * time.Millisecond)

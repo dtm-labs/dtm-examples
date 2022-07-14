@@ -72,6 +72,7 @@ func BaseAppStartup() *gin.Engine {
 	return app
 }
 
+// RunHTTP will run http server
 func RunHTTP(app *gin.Engine) {
 	logger.Debugf("Starting busi at: %d", BusiPort)
 	err := app.Run(fmt.Sprintf(":%d", BusiPort))
@@ -124,7 +125,7 @@ func BaseAddRoute(app *gin.Engine) {
 
 	app.GET(BusiAPI+"/QueryPrepared", dtmutil.WrapHandler(func(c *gin.Context) interface{} {
 		logger.Debugf("%s QueryPrepared", c.Query("gid"))
-		return dtmcli.String2DtmError(dtmimp.OrString(MainSwitch.QueryPreparedResult.Fetch(), dtmcli.ResultSuccess))
+		return string2DtmError(dtmimp.OrString(MainSwitch.QueryPreparedResult.Fetch(), dtmcli.ResultSuccess))
 	}))
 	app.GET(BusiAPI+"/QueryPreparedB", dtmutil.WrapHandler(func(c *gin.Context) interface{} {
 		logger.Debugf("%s QueryPreparedB", c.Query("gid"))

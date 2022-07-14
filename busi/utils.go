@@ -42,7 +42,8 @@ func txGet() *sql.Tx {
 	return tx
 }
 
-func resetXaData() {
+// ResetXaData will rollback all pending xa transaction
+func ResetXaData() {
 	if BusiConf.Driver != "mysql" {
 		return
 	}
@@ -70,6 +71,16 @@ func MustBarrierFromGrpc(ctx context.Context) *dtmcli.BranchBarrier {
 	ti, err := dtmgrpc.BarrierFromGrpc(ctx)
 	logger.FatalIfError(err)
 	return ti
+}
+
+// string2DtmError translate string to dtm error
+func string2DtmError(str string) error {
+	return map[string]error{
+		dtmcli.ResultFailure: dtmcli.ErrFailure,
+		dtmcli.ResultOngoing: dtmcli.ErrOngoing,
+		dtmcli.ResultSuccess: nil,
+		"":                   nil,
+	}[str]
 }
 
 // SetGrpcHeaderForHeadersYes interceptor to set head for HeadersYes

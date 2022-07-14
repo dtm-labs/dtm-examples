@@ -33,6 +33,8 @@ github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f h1:lO4WD4F/r
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f/go.mod h1:cuUVRXasLTGF7a8hSLbxyZXjz+1KgoB3wDUb6vlszIc=
 github.com/dtm-labs/client v0.0.1 h1:dbdp0P0vh64U2Vcuw1aYiWPz9Ox1id2uOrN25VV88Pk=
 github.com/dtm-labs/client v0.0.1/go.mod h1:WGWRETc3m5EidyEXBPp258hvyx8/oBT5nuLHbhm+IcQ=
+github.com/dtm-labs/client v1.15.1 h1:uxfBmZmUg0DF3jzjf30qhfFAOhruxzb81X6pzlYgTAw=
+github.com/dtm-labs/client v1.15.1/go.mod h1:WGWRETc3m5EidyEXBPp258hvyx8/oBT5nuLHbhm+IcQ=
 github.com/dtm-labs/dtmdriver v0.0.3 h1:9iAtvXKR3lJXQ7dvS87e4xdtmqkzN+ofek+CF9AvUSY=
 github.com/dtm-labs/dtmdriver v0.0.3/go.mod h1:fLiEeD2BPwM9Yq96TfcP9KpbTwFsn5nTxa/PP0jmFuk=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
