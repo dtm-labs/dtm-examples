@@ -2,8 +2,7 @@
 
 # DTM 示例
 dtm 有许多示例，帮助大家快速上手分布式事务
-- [dtmcli-go-sample](https://github.com/dtm-labs/client/dtmcli-go-sample)：一个最简的 dtm HTTP客户端使用示例
-- [dtmgrpc-go-sample](https://github.com/dtm-labs/client/dtmgrpc-go-sample)：一个最简的 dtm gRPC客户端使用示例
+- [quick-start-sample](https://github.com/dtm-labs/quick-start-sample): dtm的快速开始使用示例，包括HTTP以及gRPC协议的最简用法
 - [dtm-examples](https://github.com/dtm-labs/dtm-examples): 项目含大量示例，主要演示了dtm SDK的各种用法。
 - [dtm-cases](https://github.com/dtm-labs/dtm-cases)：包含多个项目，主要演示dtm在部分领域的完整应用，例如订单系统，秒杀系统。
 - [dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients)：包含dtm对微服务框架的支持，例如go-zero的示例
