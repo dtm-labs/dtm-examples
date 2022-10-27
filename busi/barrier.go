@@ -9,6 +9,7 @@ package busi
 import (
 	"context"
 	"database/sql"
+	"gorm.io/gorm"
 
 	"github.com/dtm-labs/client/dtmgrpc"
 	"github.com/dtm-labs/dtm-examples/dtmutil"
@@ -71,7 +72,9 @@ func init() {
 			req := reqFrom(c)
 			barrier := MustBarrierFromGin(c)
 			tx := dbGet().DB.Begin()
-			return barrier.Call(tx.Statement.ConnPool.(*sql.Tx), func(tx1 *sql.Tx) error {
+			sourceTx := tx.Statement.ConnPool.(*gorm.PreparedStmtTX).Tx
+			//  When gorm version is greater than 1.23.2 ,replace to  sourceTx = tx.Statement.ConnPool.(*gorm.PreparedStmtTX).Tx.(*sql.Tx)
+			return barrier.Call(sourceTx, func(tx1 *sql.Tx) error {
 				return tx.Exec("update dtm_busi.user_account set balance = balance + ? where user_id = ?", -req.Amount, TransOutUID).Error
 			})
 		}))
