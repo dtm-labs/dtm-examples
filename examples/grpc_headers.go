@@ -7,7 +7,6 @@
 package examples
 
 import (
-	"github.com/dtm-labs/client/dtmcli"
 	"github.com/dtm-labs/client/dtmcli/logger"
 	dtmgrpc "github.com/dtm-labs/client/dtmgrpc"
 	"github.com/dtm-labs/dtm-examples/busi"
@@ -45,19 +44,5 @@ func init() {
 		})
 		logger.FatalIfError(err)
 		return gid
-	})
-	AddCommand("grpc_saga_passthroughHeaders", func() string {
-		dtmcli.SetPassthroughHeaders([]string{"test_header"})        // set passthrough headers. dtm will
-		dtmgrpc.AddUnaryInterceptor(busi.SetGrpcHeaderForHeadersYes) // will set header in this middleware
-
-		req := &busi.ReqGrpc{Amount: 30}
-		gid := shortuuid.New() + "HeadersYes" // gid with this post fix will be handled in interceptor
-		saga := dtmgrpc.NewSagaGrpc(dtmutil.DefaultGrpcServer, gid).
-			Add(busi.BusiGrpc+"/busi.Busi/TransOutHeaderYes", "", req) // /TransOutHeaderYes will check header exists
-
-		saga.WaitResult = true
-		err := saga.Submit()
-		logger.FatalIfError(err)
-		return saga.Gid
 	})
 }
